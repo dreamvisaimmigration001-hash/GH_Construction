@@ -136,7 +136,7 @@ export const SERVICES: ServiceItem[] = [
     title: "Streamlined Permitting Process",
     tagline: "Expedited municipal approvals and code compliance",
     description:
-      "Expert navigation through municipal building departments, Alberta Building Code regulations, health authority guidelines, and development permit requirements.",
+      "Expert navigation through municipal building departments, Scarborough Building Code regulations, health authority guidelines, and development permit requirements.",
     deliverables: [
       "Development permit (DP) and building permit (BP) filing",
       "AHS / Medical health inspection pre-coordination",
@@ -251,7 +251,7 @@ export const WHY_GH_PILLARS = [
   {
     title: "Experience Since 2008",
     description:
-      "Over a decade and a half of dedicated commercial general contracting and intricate interior build-outs across Alberta, with proven mastery in complex environments.",
+      "Over a decade and a half of dedicated commercial general contracting and intricate interior build-outs across Scarborough, with proven mastery in complex environments.",
   },
   {
     title: "Deep Technical Knowledge",
@@ -400,11 +400,11 @@ export const JOB_POSITIONS: JobPosition[] = [
       "Manage project scope, schedule, budget, and trade contractor allocations for multi-million dollar interior developments",
       "Act as primary liaison for clients, architects, municipal permit officials, and building landlords",
       "Administer prime contracts, subcontracts, change orders, and progress billings",
-      "Supervise Site Superintendents and ensure adherence to Alberta Safety Codes & GH Construction standards",
+      "Supervise Site Superintendents and ensure adherence to Scarborough Safety Codes & GH Construction standards",
     ],
     qualifications: [
       "Degree or diploma in Construction Management, Civil Engineering, or Architectural Technology",
-      "7+ years experience managing commercial interior or healthcare tenant improvement projects in Alberta",
+      "7+ years experience managing commercial interior or healthcare tenant improvement projects in Scarborough",
       "Proficiency with Procore, MS Project, Bluebeam, and construction ERP systems",
       "Gold Seal Certification (PCO/GSC) or PMP designation considered a strong asset",
     ],
@@ -430,7 +430,7 @@ export const JOB_POSITIONS: JobPosition[] = [
     qualifications: [
       "5+ years commercial interior estimating experience in Canadian markets",
       "Advanced skills with digital takeoff software (PlanSwift, Bluebeam, Procore)",
-      "Strong knowledge of Alberta construction labor markets and current material supply pricing",
+      "Strong knowledge of Scarborough construction labor markets and current material supply pricing",
       "CIQS (PQS) designation or relevant technical diploma preferred",
     ],
     postedDate: "Updated This Week",
@@ -496,7 +496,7 @@ export const JOB_POSITIONS: JobPosition[] = [
       "Champion safety excellence across all GH Construction job sites, ensuring COR compliance, subcontractor orientations, and hazard assessments.",
     responsibilities: [
       "Conduct regular job site safety audits, inspections, and toolbox safety talks",
-      "Manage hazard assessments, incident investigations, and regulatory reporting in compliance with Alberta OHS",
+      "Manage hazard assessments, incident investigations, and regulatory reporting in compliance with Scarborough OHS",
       "Maintain company safety manuals, COR audit readiness, and subcontractor compliance documentation",
     ],
     qualifications: [

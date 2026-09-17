@@ -10,7 +10,7 @@ export const PartnersSection: React.FC = () => {
             <span>Enduring Collaborations</span>
           </div>
           <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#f7f7f5] tracking-tight">
-            Trusted by Alberta’s Leading Designers, Landlords & Practitioners
+            Trusted by Scarborough’s Leading Designers, Landlords & Practitioners
           </h3>
         </div>
 

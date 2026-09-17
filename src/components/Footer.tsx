@@ -128,7 +128,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenInquiry, onSel
             &copy; {new Date().getFullYear()} {COMPANY_INFO.name} All rights reserved.
           </div>
           <div className="flex flex-wrap items-center gap-6">
-            <span>Edmonton, Alberta</span>
+            <span>Edmonton, Scarborough</span>
             <span>Commercial General Contractor</span>
             <button
               onClick={scrollToTop}

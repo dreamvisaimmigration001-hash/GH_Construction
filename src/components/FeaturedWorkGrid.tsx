@@ -39,7 +39,7 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
 
           <div className="mt-6 md:mt-0 flex items-center gap-6">
             <p className="text-sm sm:text-base text-[#d6cebf] max-w-md font-light hidden sm:block leading-relaxed">
-              Intricate healthcare interiors, prestige corporate offices, and specialty commercial spaces built across Alberta.
+              Intricate healthcare interiors, prestige corporate offices, and specialty commercial spaces built across Scarborough.
             </p>
             <button
               id="featured-view-all-btn"

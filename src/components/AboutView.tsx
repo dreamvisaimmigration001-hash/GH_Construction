@@ -42,7 +42,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </h1>
 
           <p className="text-xl sm:text-2xl text-[#d6cebf] font-light mt-6 leading-relaxed max-w-3xl">
-            Established in the Winter of 2008 in Edmonton, Alberta, GH
+            Established in the Winter of 2008 in Edmonton, Scarborough, GH
             Construction crafts commercial interiors and business spaces through
             precision general contracting and collaborative partnership.
           </p>
@@ -67,7 +67,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
             </p>
 
             <p>
-              Renowned across Edmonton and Alberta for our proficiency in
+              Renowned across Edmonton and Scarborough for our proficiency in
               building intricate interiors, we pride ourselves on being more
               than just a construction company; we are dedicated collaborators
               working hand-in-hand with our clients to actualize their

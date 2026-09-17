@@ -43,7 +43,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="inline-flex max-w-full items-center gap-2.5 py-2 px-3.5 sm:px-5 bg-[#0d0f15]/90 border border-white/[0.12] mb-6 sm:mb-8 backdrop-blur-md">
           <span className="w-2 h-2 bg-[#c8aa7a] shrink-0" />
           <span className="text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-wider sm:tracking-[0.2em] text-[#d6cebf]">
-            Commercial General Contracting • Edmonton & Alberta • Est. 2008
+            Commercial General Contracting • Edmonton & Scarborough • Est. 2008
           </span>
         </div>
 
@@ -122,7 +122,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="flex items-center gap-2.5 sm:gap-3">
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#c8aa7a] shrink-0" />
             <div>
-              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">Edmonton & Alberta</span>
+              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">Edmonton & Scarborough</span>
               <span className="text-[11px] sm:text-xs text-[#a39d91]">Commercial & Clinical</span>
             </div>
           </div>

@@ -257,7 +257,7 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
           </h1>
 
           <p className="text-lg sm:text-2xl text-[#d6cebf] font-light mt-6 leading-relaxed max-w-3xl">
-            Commercial interiors, healthcare build-outs, and construction management crafted with pride. Track an active application by reference number, or apply to open positions across Alberta.
+            Commercial interiors, healthcare build-outs, and construction management crafted with pride. Track an active application by reference number, or apply to open positions across Scarborough.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -999,7 +999,7 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
               {
                 icon: Building,
                 title: 'High-Spec Projects',
-                desc: 'Lead intricate dental clinics, commercial headquarters, and retail spaces with top architectural partners across Alberta.'
+                desc: 'Lead intricate dental clinics, commercial headquarters, and retail spaces with top architectural partners across Scarborough.'
               },
               {
                 icon: Award,

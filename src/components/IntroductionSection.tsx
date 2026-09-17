@@ -27,7 +27,7 @@ export const IntroductionSection: React.FC<IntroductionSectionProps> = ({
             </h2>
 
             <p className="text-xs sm:text-sm font-mono text-[#d6cebf] uppercase tracking-[0.2em]">
-              ESTABLISHED WINTER 2008 • EDMONTON, ALBERTA
+              ESTABLISHED WINTER 2008 • EDMONTON, SCARBOROUGH
             </p>
 
             <div className="pt-4 border-t border-white/[0.08] space-y-4 text-sm text-[#d6cebf]">
@@ -64,7 +64,7 @@ export const IntroductionSection: React.FC<IntroductionSectionProps> = ({
           <div className="lg:col-span-7 space-y-8">
             <div className="text-lg sm:text-xl text-[#d6cebf] font-light leading-relaxed space-y-5">
               <p>
-                <strong className="text-[#f7f7f5] font-medium">GH Construction</strong> was established in the <span className="text-[#c8aa7a] font-normal">Winter of 2008</span> with a clear purpose: crafting exquisite commercial environments for our esteemed clients. Renowned across Alberta for our proficiency in building intricate interiors, we pride ourselves on being more than just a construction company.
+                <strong className="text-[#f7f7f5] font-medium">GH Construction</strong> was established in the <span className="text-[#c8aa7a] font-normal">Winter of 2008</span> with a clear purpose: crafting exquisite commercial environments for our esteemed clients. Renowned across Scarborough for our proficiency in building intricate interiors, we pride ourselves on being more than just a construction company.
               </p>
               <p className="text-[#a39d91] text-base sm:text-lg leading-relaxed">
                 We are dedicated collaborators working hand-in-hand with our clients to actualize their aspirations. Our commitment extends beyond the physical structures we build; we are devoted to fostering enduring partnerships built on trust, quality, and shared commercial success.

@@ -54,7 +54,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
             Our Completed Projects
           </h1>
           <p className="text-lg sm:text-xl text-[#d6cebf] font-light mt-4 max-w-3xl leading-relaxed">
-            Explore authentic commercial construction, dental & medical clinics, corporate offices, and specialty retail interiors built by GH Construction across Alberta.
+            Explore authentic commercial construction, dental & medical clinics, corporate offices, and specialty retail interiors built by GH Construction across Scarborough.
           </p>
         </div>
 
@@ -192,7 +192,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
         <div className="mt-20 p-8 sm:p-14 bg-[#0d0f15] border border-white/[0.1] flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
           <div className="space-y-3 text-center lg:text-left">
             <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#f7f7f5]">
-              Planning a commercial interior or clinic in Alberta?
+              Planning a commercial interior or clinic in Scarborough?
             </h3>
             <p className="text-base sm:text-lg text-[#d6cebf] font-light max-w-2xl">
               From dental clinics and surgical operatories to corporate headquarters, we deliver with experience, precision, and business alignment.
