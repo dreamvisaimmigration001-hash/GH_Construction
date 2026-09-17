@@ -142,7 +142,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#c8aa7a] shrink-0" />
             <div>
               <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">
-                Scarborough & Scarborough
+                Scarborough
               </span>
               <span className="text-[11px] sm:text-xs text-[#a39d91]">
                 Commercial & Clinical
