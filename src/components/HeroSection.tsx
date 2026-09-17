@@ -1,6 +1,12 @@
-import React from 'react';
-import { ArrowDown, ArrowUpRight, ShieldCheck, Clock, MapPin } from 'lucide-react';
-import { COMPANY_INFO, PROJECTS } from '../data/ghData';
+import React from "react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  ShieldCheck,
+  Clock,
+  MapPin,
+} from "lucide-react";
+import { COMPANY_INFO, PROJECTS } from "../data/ghData";
 
 interface HeroSectionProps {
   onViewWork?: () => void;
@@ -20,10 +26,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const handleSelectProj = onSelectProject || (() => {});
 
   // Hero featured project: Synapse or Parkland
-  const featuredHero = PROJECTS.find((p) => p.id === 'synapse') || PROJECTS[0];
+  const featuredHero = PROJECTS.find((p) => p.id === "synapse") || PROJECTS[0];
 
   return (
-    <section id="hero-section" className="relative min-h-[92vh] sm:min-h-[94vh] flex flex-col justify-end pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+    <section
+      id="hero-section"
+      className="relative min-h-[92vh] sm:min-h-[94vh] flex flex-col justify-end pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
+    >
       {/* Background Architectural Image with Fine Vignette & Gradients */}
       <div className="absolute inset-0 z-0">
         <img
@@ -43,7 +52,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="inline-flex max-w-full items-center gap-2.5 py-2 px-3.5 sm:px-5 bg-[#0d0f15]/90 border border-white/[0.12] mb-6 sm:mb-8 backdrop-blur-md">
           <span className="w-2 h-2 bg-[#c8aa7a] shrink-0" />
           <span className="text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-wider sm:tracking-[0.2em] text-[#d6cebf]">
-            Commercial General Contracting • Scarborough & Scarborough • Est. 2008
+            Commercial General Contracting • Scarborough • Est. 2008
           </span>
         </div>
 
@@ -54,7 +63,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className="text-3xl sm:text-6xl lg:text-7xl font-display font-bold text-[#f7f7f5] tracking-tight leading-[1.08] mb-4 sm:mb-6"
           >
             Spaces Built <br />
-            <span className="text-[#c8aa7a] font-light italic font-serif">Around Your Business.</span>
+            <span className="text-[#c8aa7a] font-light italic font-serif">
+              Around Your Business.
+            </span>
           </h1>
 
           <p
@@ -87,7 +98,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Quick Hero Project Tag */}
           <button
             id="hero-featured-tag"
-            onClick={() => handleSelectProj('synapse')}
+            onClick={() => handleSelectProj("synapse")}
             className="sm:ml-auto flex items-center gap-3.5 px-4 sm:px-5 py-3 sm:py-3.5 bg-[#0d0f15]/90 hover:bg-[#131620] border border-white/[0.1] hover:border-[#c8aa7a]/50 text-left transition-colors group cursor-pointer"
           >
             <div className="w-1 h-9 bg-[#c8aa7a] shrink-0" />
@@ -108,29 +119,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="flex items-center gap-2.5 sm:gap-3">
             <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#c8aa7a] shrink-0" />
             <div>
-              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">Winter 2008</span>
-              <span className="text-[11px] sm:text-xs text-[#a39d91]">Established Foundation</span>
+              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">
+                Winter 2008
+              </span>
+              <span className="text-[11px] sm:text-xs text-[#a39d91]">
+                Established Foundation
+              </span>
             </div>
           </div>
           <div className="flex items-center gap-2.5 sm:gap-3">
             <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-[#c8aa7a] shrink-0" />
             <div>
-              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">A-Z Delivery</span>
-              <span className="text-[11px] sm:text-xs text-[#a39d91]">General Contracting</span>
+              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">
+                A-Z Delivery
+              </span>
+              <span className="text-[11px] sm:text-xs text-[#a39d91]">
+                General Contracting
+              </span>
             </div>
           </div>
           <div className="flex items-center gap-2.5 sm:gap-3">
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#c8aa7a] shrink-0" />
             <div>
-              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">Scarborough & Scarborough</span>
-              <span className="text-[11px] sm:text-xs text-[#a39d91]">Commercial & Clinical</span>
+              <span className="font-semibold text-[#f7f7f5] block text-xs sm:text-base">
+                Scarborough & Scarborough
+              </span>
+              <span className="text-[11px] sm:text-xs text-[#a39d91]">
+                Commercial & Clinical
+              </span>
             </div>
           </div>
           <div className="flex items-center gap-2.5 sm:gap-3">
             <div className="w-2 h-2 bg-[#c8aa7a] shrink-0" />
             <div>
-              <span className="font-semibold text-[#f7f7f5] block font-display text-xs sm:text-base">Big Enough to Serve</span>
-              <span className="text-[11px] sm:text-xs text-[#a39d91]">Small Enough to Care</span>
+              <span className="font-semibold text-[#f7f7f5] block font-display text-xs sm:text-base">
+                Big Enough to Serve
+              </span>
+              <span className="text-[11px] sm:text-xs text-[#a39d91]">
+                Small Enough to Care
+              </span>
             </div>
           </div>
         </div>
