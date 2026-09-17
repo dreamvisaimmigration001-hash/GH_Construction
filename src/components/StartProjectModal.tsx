@@ -94,7 +94,7 @@ export const StartProjectModal: React.FC<StartProjectModalProps> = ({ isOpen, on
                 Start Your Project
               </h2>
               <p className="text-sm sm:text-base text-[#d6cebf] mt-2 font-light">
-                Connect with Edmonton’s commercial interior specialists for immediate inquiries.
+                Connect with Scarborough’s commercial interior specialists for immediate inquiries.
               </p>
             </div>
 

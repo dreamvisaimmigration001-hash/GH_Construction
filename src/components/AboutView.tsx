@@ -46,7 +46,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </h1>
 
           <p className="text-xl sm:text-2xl text-[#d6cebf] font-light mt-6 leading-relaxed max-w-3xl">
-            Established in the Winter of 2008 in Edmonton, Scarborough, GH
+            Established in the Winter of 2008 in Scarborough, GH
             Construction crafts commercial interiors and business spaces through
             precision general contracting and collaborative partnership.
           </p>
@@ -71,7 +71,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
             </p>
 
             <p>
-              Renowned across Edmonton and Scarborough for our proficiency in
+              Renowned across Scarborough and Scarborough for our proficiency in
               building intricate interiors, we pride ourselves on being more
               than just a construction company; we are dedicated collaborators
               working hand-in-hand with our clients to actualize their
@@ -107,7 +107,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
                 referrerPolicy="no-referrer"
               />
               <div className="absolute bottom-3 left-3 right-3 p-3.5 bg-[#08090c]/90 border border-white/[0.15] text-xs sm:text-sm font-mono text-[#d6cebf]">
-                Juriscorp Law Offices • Edmonton • GH Construction
+                Juriscorp Law Offices • Scarborough • GH Construction
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
                     HQ Location:
                   </span>
                   <span className="text-[#f7f7f5] font-semibold text-sm sm:text-base">
-                    Edmonton
+                    Scarborough
                   </span>
                 </div>
                 <div>
@@ -272,7 +272,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
                 Corporate Office
               </div>
               <h3 className="text-2xl font-display font-bold text-[#f7f7f5]">
-                Edmonton HQ
+                Scarborough HQ
               </h3>
               <div className="space-y-2.5 pt-3 border-t border-white/[0.08] text-sm font-mono">
                 <a

@@ -1,6 +1,6 @@
-import React from 'react';
-import { ArrowUpRight, MapPin, Eye } from 'lucide-react';
-import { Project } from '../types';
+import React from "react";
+import { ArrowUpRight, MapPin, Eye } from "lucide-react";
+import { Project } from "../types";
 
 interface FeaturedWorkGridProps {
   projects: Project[];
@@ -14,16 +14,25 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
   onViewAllProjects,
 }) => {
   // Select key authentic projects with varied layouts
-  const primaryProject = projects.find((p) => p.id === 'synapse') || projects[0];
-  const sideProject1 = projects.find((p) => p.id === 'stratica-dermatology') || projects[1];
-  const sideProject2 = projects.find((p) => p.id === 'bcmb') || projects[2];
-  const wideProject = projects.find((p) => p.id === 'ivory-denture-clinic') || projects[3];
-  const midProject1 = projects.find((p) => p.id === 'felice-cafe') || projects[4];
-  const midProject2 = projects.find((p) => p.id === 'parkland-dental') || projects[5];
-  const midProject3 = projects.find((p) => p.id === 'juriscorp-law') || projects[6];
+  const primaryProject =
+    projects.find((p) => p.id === "synapse") || projects[0];
+  const sideProject1 =
+    projects.find((p) => p.id === "stratica-dermatology") || projects[1];
+  const sideProject2 = projects.find((p) => p.id === "bcmb") || projects[2];
+  const wideProject =
+    projects.find((p) => p.id === "ivory-denture-clinic") || projects[3];
+  const midProject1 =
+    projects.find((p) => p.id === "felice-cafe") || projects[4];
+  const midProject2 =
+    projects.find((p) => p.id === "parkland-dental") || projects[5];
+  const midProject3 =
+    projects.find((p) => p.id === "juriscorp-law") || projects[6];
 
   return (
-    <section id="featured-work-section" className="py-24 sm:py-32 bg-[#08090c] border-b border-white/[0.08]">
+    <section
+      id="featured-work-section"
+      className="py-24 sm:py-32 bg-[#08090c] border-b border-white/[0.08]"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-white/[0.08]">
@@ -39,7 +48,8 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
 
           <div className="mt-6 md:mt-0 flex items-center gap-6">
             <p className="text-sm sm:text-base text-[#d6cebf] max-w-md font-light hidden sm:block leading-relaxed">
-              Intricate healthcare interiors, prestige corporate offices, and specialty commercial spaces built across Scarborough.
+              Intricate healthcare interiors, prestige corporate offices, and
+              specialty commercial spaces built across Scarborough.
             </p>
             <button
               id="featured-view-all-btn"
@@ -241,7 +251,9 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
 
                   <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs sm:text-sm font-mono text-[#a39d91]">
                     <span>{proj.location}</span>
-                    <span className="text-[#c8aa7a] font-medium">Case Study &rarr;</span>
+                    <span className="text-[#c8aa7a] font-medium">
+                      Case Study &rarr;
+                    </span>
                   </div>
                 </div>
               </div>

@@ -78,7 +78,7 @@ export const ContactSection: React.FC = () => {
                 Start Your Project Inquiry
               </h2>
               <p className="text-base sm:text-lg text-[#d6cebf] font-light mt-4 leading-relaxed">
-                Connect directly with our leadership team in Edmonton. We review
+                Connect directly with our leadership team in Scarborough. We review
                 project viability, lease clauses, and construction timelines
                 with a business-first perspective.
               </p>

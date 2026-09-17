@@ -1,6 +1,12 @@
-import React from 'react';
-import { ArrowUpRight, CheckCircle2, Compass, Building2, Briefcase } from 'lucide-react';
-import { COMPANY_INFO } from '../data/ghData';
+import React from "react";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  Compass,
+  Building2,
+  Briefcase,
+} from "lucide-react";
+import { COMPANY_INFO } from "../data/ghData";
 
 interface IntroductionSectionProps {
   onLearnMore: () => void;
@@ -12,7 +18,10 @@ export const IntroductionSection: React.FC<IntroductionSectionProps> = ({
   onStartProject,
 }) => {
   return (
-    <section id="introduction-section" className="py-24 sm:py-32 bg-[#0a0b0f] border-b border-white/[0.08] relative">
+    <section
+      id="introduction-section"
+      className="py-24 sm:py-32 bg-[#0a0b0f] border-b border-white/[0.08] relative"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Architectural Intro Typography */}
@@ -26,24 +35,29 @@ export const IntroductionSection: React.FC<IntroductionSectionProps> = ({
               Dedicated collaborators, not just contractors.
             </h2>
 
-            <p className="text-xs sm:text-sm font-mono text-[#d6cebf] uppercase tracking-[0.2em]">
-              ESTABLISHED WINTER 2008 • EDMONTON, SCARBOROUGH
-            </p>
-
             <div className="pt-4 border-t border-white/[0.08] space-y-4 text-sm text-[#d6cebf]">
               <div className="flex items-start gap-3">
                 <Building2 className="w-5 h-5 text-[#c8aa7a] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[#f7f7f5] font-semibold block text-base">Core Focus</span>
-                  <span className="text-sm text-[#a39d91]">General contracting, commercial construction, commercial interiors & tenant improvements.</span>
+                  <span className="text-[#f7f7f5] font-semibold block text-base">
+                    Core Focus
+                  </span>
+                  <span className="text-sm text-[#a39d91]">
+                    General contracting, commercial construction, commercial
+                    interiors & tenant improvements.
+                  </span>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <Briefcase className="w-5 h-5 text-[#c8aa7a] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[#f7f7f5] font-semibold block text-base">Client Philosophy</span>
-                  <span className="text-sm text-[#a39d91]">“{COMPANY_INFO.motto}”</span>
+                  <span className="text-[#f7f7f5] font-semibold block text-base">
+                    Client Philosophy
+                  </span>
+                  <span className="text-sm text-[#a39d91]">
+                    “{COMPANY_INFO.motto}”
+                  </span>
                 </div>
               </div>
             </div>
@@ -64,10 +78,24 @@ export const IntroductionSection: React.FC<IntroductionSectionProps> = ({
           <div className="lg:col-span-7 space-y-8">
             <div className="text-lg sm:text-xl text-[#d6cebf] font-light leading-relaxed space-y-5">
               <p>
-                <strong className="text-[#f7f7f5] font-medium">GH Construction</strong> was established in the <span className="text-[#c8aa7a] font-normal">Winter of 2008</span> with a clear purpose: crafting exquisite commercial environments for our esteemed clients. Renowned across Scarborough for our proficiency in building intricate interiors, we pride ourselves on being more than just a construction company.
+                <strong className="text-[#f7f7f5] font-medium">
+                  GH Construction
+                </strong>{" "}
+                was established in the{" "}
+                <span className="text-[#c8aa7a] font-normal">
+                  Winter of 2008
+                </span>{" "}
+                with a clear purpose: crafting exquisite commercial environments
+                for our esteemed clients. Renowned across Scarborough for our
+                proficiency in building intricate interiors, we pride ourselves
+                on being more than just a construction company.
               </p>
               <p className="text-[#a39d91] text-base sm:text-lg leading-relaxed">
-                We are dedicated collaborators working hand-in-hand with our clients to actualize their aspirations. Our commitment extends beyond the physical structures we build; we are devoted to fostering enduring partnerships built on trust, quality, and shared commercial success.
+                We are dedicated collaborators working hand-in-hand with our
+                clients to actualize their aspirations. Our commitment extends
+                beyond the physical structures we build; we are devoted to
+                fostering enduring partnerships built on trust, quality, and
+                shared commercial success.
               </p>
             </div>
 

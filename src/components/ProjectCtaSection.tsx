@@ -53,7 +53,7 @@ export const ProjectCtaSection: React.FC<ProjectCtaSectionProps> = ({ onStartPro
           </div>
 
           <div className="pt-8 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-[#d6cebf] font-mono">
-            <span>• Edmonton, Scarborough</span>
+            <span>• Scarborough</span>
             <span>• Commercial General Contracting</span>
             <span>• Est. Winter 2008</span>
           </div>
