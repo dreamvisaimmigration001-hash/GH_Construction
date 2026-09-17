@@ -194,7 +194,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   onClick={onStartProject}
                   className="w-full py-4 bg-[#c8aa7a] hover:bg-[#d6ba8c] text-[#08090c] font-display font-bold text-xs sm:text-sm tracking-wider uppercase transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-[#c8aa7a]/15"
                 >
-                  <span>INQUIRE ABOUT SIMILAR BUILD</span>
+                  <span>INQUIREOUT SIMILAR BUILD</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
               </div>

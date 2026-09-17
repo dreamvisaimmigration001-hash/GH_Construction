@@ -27,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
                 className="h-12 sm:h-14 w-auto object-contain"
               />
               <span className="text-xs font-mono text-[#c8aa7a] tracking-[0.2em] uppercase font-semibold">
-                EST. {COMPANY_INFO.established.toUpperCase()} • EDMONTON, AB
+                EST. {COMPANY_INFO.established.toUpperCase()} • EDMONTON
               </span>
             </div>
 

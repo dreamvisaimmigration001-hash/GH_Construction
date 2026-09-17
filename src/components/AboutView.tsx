@@ -107,7 +107,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
                 referrerPolicy="no-referrer"
               />
               <div className="absolute bottom-3 left-3 right-3 p-3.5 bg-[#08090c]/90 border border-white/[0.15] text-xs sm:text-sm font-mono text-[#d6cebf]">
-                Juriscorp Law Offices • Edmonton, AB • GH Construction
+                Juriscorp Law Offices • Edmonton • GH Construction
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
                     HQ Location:
                   </span>
                   <span className="text-[#f7f7f5] font-semibold text-sm sm:text-base">
-                    Edmonton, AB
+                    Edmonton
                   </span>
                 </div>
                 <div>

@@ -17,7 +17,7 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
   const primaryProject = projects.find((p) => p.id === 'synapse') || projects[0];
   const sideProject1 = projects.find((p) => p.id === 'stratica-dermatology') || projects[1];
   const sideProject2 = projects.find((p) => p.id === 'bcmb') || projects[2];
-  const wideProject = projects.find((p) => p.id === 'vine-arts') || projects[3];
+  const wideProject = projects.find((p) => p.id === 'ivory-denture-clinic') || projects[3];
   const midProject1 = projects.find((p) => p.id === 'felice-cafe') || projects[4];
   const midProject2 = projects.find((p) => p.id === 'parkland-dental') || projects[5];
   const midProject3 = projects.find((p) => p.id === 'juriscorp-law') || projects[6];
@@ -168,7 +168,7 @@ export const FeaturedWorkGrid: React.FC<FeaturedWorkGridProps> = ({
             </div>
           </div>
 
-          {/* Row 2: Wide Architectural Banner (Vine Arts) */}
+          {/* Row 2: Wide Architectural Banner (Ivory Denture Clinic) */}
           <div
             id={`featured-card-${wideProject.id}`}
             onClick={() => onSelectProject(wideProject.id)}

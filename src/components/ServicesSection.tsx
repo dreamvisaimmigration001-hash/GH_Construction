@@ -90,7 +90,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onStartProject
                           onClick={onStartProject}
                           className="inline-flex items-center gap-2 text-sm font-display font-bold uppercase tracking-wider text-[#c8aa7a] hover:text-[#d6ba8c] pt-2 transition-colors"
                         >
-                          <span>INQUIRE ABOUT THIS SERVICE</span>
+                          <span>INQUIREOUT THIS SERVICE</span>
                           <ArrowUpRight className="w-4 h-4" />
                         </button>
                       </div>

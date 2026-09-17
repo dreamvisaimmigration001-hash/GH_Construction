@@ -294,7 +294,7 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject }) => {
         <div className="max-w-4xl border-b border-white/[0.08] pb-14 mb-16">
           <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-[#c8aa7a] mb-4">
             <span className="w-2 h-2 bg-[#c8aa7a]" />
-            <span>Careers & Opportunities • Edmonton, AB</span>
+            <span>Careers & Opportunities • Edmonton</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-bold text-[#f7f7f5] tracking-tight leading-[1.08]">
