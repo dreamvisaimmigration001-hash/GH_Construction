@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowUpRight, MapPin, Check, X, ChevronLeft, ChevronRight, Share2, Layers } from 'lucide-react';
 import { Project } from '../types';
+import { motion } from 'motion/react';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -47,7 +48,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   };
 
   return (
-    <div id="project-detail-view" className="pt-24 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      id="project-detail-view" 
+      className="pt-24 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]"
+    >
       {/* Top Back Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between border-b border-white/[0.08]">
         <button
@@ -346,6 +353,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, Check, Shield, FileCheck, Layers, Wrench, DollarSign, DraftingCompass } from 'lucide-react';
 import { SERVICES } from '../data/ghData';
+import { motion } from "motion/react";
 
 interface ServicesViewProps {
   onStartProject: () => void;
@@ -8,7 +9,13 @@ interface ServicesViewProps {
 
 export const ServicesView: React.FC<ServicesViewProps> = ({ onStartProject }) => {
   return (
-    <div id="services-page" className="pt-28 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      id="services-page" 
+      className="pt-28 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-4xl border-b border-white/[0.08] pb-16 mb-16">
@@ -91,6 +98,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ onStartProject }) =>
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

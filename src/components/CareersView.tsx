@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId } from "react";
 import {
   Search,
   CheckCircle2,
@@ -23,40 +23,50 @@ import {
   Loader2,
   Download,
   ExternalLink,
-  Printer
-} from 'lucide-react';
-import { JOB_POSITIONS, MOCK_APPLICATION_RECORDS, COMPANY_INFO } from '../data/ghData';
-import { JobPosition, ApplicationStatusRecord } from '../types';
+  Printer,
+} from "lucide-react";
+import {
+  JOB_POSITIONS,
+  MOCK_APPLICATION_RECORDS,
+  COMPANY_INFO,
+} from "../data/ghData";
+import { JobPosition, ApplicationStatusRecord } from "../types";
+import { motion } from "motion/react";
 
 interface CareersViewProps {
   onStartProject?: () => void;
-  onNavigateContact?: () => void;
 }
 
-export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavigateContact }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDepartment, setSelectedDepartment] = useState('All');
-  const [activeApplication, setActiveApplication] = useState<ApplicationStatusRecord | null>(null);
+export const CareersView: React.FC<CareersViewProps> = ({ onStartProject }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
+  const [activeApplication, setActiveApplication] =
+    useState<ApplicationStatusRecord | null>(null);
   const [matchedJob, setMatchedJob] = useState<JobPosition | null>(null);
   const [apiOffer, setApiOffer] = useState<any | null>(null);
   const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [searchStatus, setSearchStatus] = useState<
-    'idle' | 'found-app' | 'found-job' | 'found-api-offer' | 'not-found'
-  >('idle');
-  const [appliedRecords, setAppliedRecords] = useState<ApplicationStatusRecord[]>(MOCK_APPLICATION_RECORDS);
+    "idle" | "found-app" | "found-job" | "found-api-offer" | "not-found"
+  >("idle");
+  const [appliedRecords, setAppliedRecords] = useState<
+    ApplicationStatusRecord[]
+  >(MOCK_APPLICATION_RECORDS);
 
   // Application Modal state
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [selectedJobForApply, setSelectedJobForApply] = useState<JobPosition | null>(null);
-  const [applyRefInput, setApplyRefInput] = useState('');
-  const [candidateName, setCandidateName] = useState('');
-  const [candidateEmail, setCandidateEmail] = useState('');
-  const [candidatePhone, setCandidatePhone] = useState('');
-  const [candidateExperience, setCandidateExperience] = useState('3-5 years');
-  const [candidateNotes, setCandidateNotes] = useState('');
-  const [resumeFileName, setResumeFileName] = useState('');
-  const [newlyGeneratedRef, setNewlyGeneratedRef] = useState<string | null>(null);
+  const [selectedJobForApply, setSelectedJobForApply] =
+    useState<JobPosition | null>(null);
+  const [applyRefInput, setApplyRefInput] = useState("");
+  const [candidateName, setCandidateName] = useState("");
+  const [candidateEmail, setCandidateEmail] = useState("");
+  const [candidatePhone, setCandidatePhone] = useState("");
+  const [candidateExperience, setCandidateExperience] = useState("3-5 years");
+  const [candidateNotes, setCandidateNotes] = useState("");
+  const [resumeFileName, setResumeFileName] = useState("");
+  const [newlyGeneratedRef, setNewlyGeneratedRef] = useState<string | null>(
+    null,
+  );
   const [hasCopiedRef, setHasCopiedRef] = useState(false);
   const [hasCopiedLetter, setHasCopiedLetter] = useState(false);
 
@@ -70,19 +80,21 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
   const notesInputId = useId();
 
   const departments = [
-    'All',
-    'Project Management',
-    'Estimating & Preconstruction',
-    'Field Operations',
-    'Skilled Trades',
-    'Safety & Compliance'
+    "All",
+    "Project Management",
+    "Estimating & Preconstruction",
+    "Field Operations",
+    "Skilled Trades",
+    "Safety & Compliance",
   ];
 
   // Reference search handler calling live Offer API + fallback to local records
   const handleReferenceLookup = async (queryOverride?: string) => {
-    const rawQuery = (queryOverride !== undefined ? queryOverride : searchQuery).trim();
+    const rawQuery = (
+      queryOverride !== undefined ? queryOverride : searchQuery
+    ).trim();
     if (!rawQuery) {
-      setSearchStatus('idle');
+      setSearchStatus("idle");
       setActiveApplication(null);
       setMatchedJob(null);
       setApiOffer(null);
@@ -98,15 +110,15 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
     // 1. Query the live Offer Letter API:
     // https://offer-letter-app-one.vercel.app/api/v1/public/offers?companyId=6aabbd53da6dded29ac060c0&reference=YOUR_REFERENCE
     try {
-      const companyId = '6aabbd53da6dded29ac060c0';
+      const companyId = "6aabbd53da6dded29ac060c0";
       // The API is case-sensitive, so use uppercaseQuery (e.g. OFF-2026-VKUNA2)
       const apiUrl = `https://offer-letter-app-one.vercel.app/api/v1/public/offers?companyId=${companyId}&reference=${encodeURIComponent(uppercaseQuery)}`;
 
       const res = await fetch(apiUrl, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Accept: 'application/json'
-        }
+          Accept: "application/json",
+        },
       });
 
       const resData = await res.json().catch(() => null);
@@ -115,24 +127,36 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
         setApiOffer(resData.data);
         setActiveApplication(null);
         setMatchedJob(null);
-        setSearchStatus('found-api-offer');
+        setSearchStatus("found-api-offer");
         setIsSearching(false);
-        document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+        document
+          .getElementById("reference-portal-section")
+          ?.scrollIntoView({ behavior: "smooth" });
         return;
       }
 
       // If uppercase failed and user typed mixed case, try trimmedQuery as fallback
       if (!res.ok && uppercaseQuery !== trimmedQuery) {
         const fallbackUrl = `https://offer-letter-app-one.vercel.app/api/v1/public/offers?companyId=${companyId}&reference=${encodeURIComponent(trimmedQuery)}`;
-        const fallbackRes = await fetch(fallbackUrl, { method: 'GET', headers: { Accept: 'application/json' } });
+        const fallbackRes = await fetch(fallbackUrl, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        });
         const fallbackData = await fallbackRes.json().catch(() => null);
-        if (fallbackRes.ok && fallbackData && fallbackData.success && fallbackData.data) {
+        if (
+          fallbackRes.ok &&
+          fallbackData &&
+          fallbackData.success &&
+          fallbackData.data
+        ) {
           setApiOffer(fallbackData.data);
           setActiveApplication(null);
           setMatchedJob(null);
-          setSearchStatus('found-api-offer');
+          setSearchStatus("found-api-offer");
           setIsSearching(false);
-          document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+          document
+            .getElementById("reference-portal-section")
+            ?.scrollIntoView({ behavior: "smooth" });
           return;
         }
       }
@@ -143,39 +167,43 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
         setApiErrorMessage(resData.error);
       }
     } catch (err) {
-      console.warn('Live Offer API query notice:', err);
+      console.warn("Live Offer API query notice:", err);
     }
 
     // 2. Fallback: Check local candidate application records
-    const normalized = uppercaseQuery.replace(/\s+/g, '');
+    const normalized = uppercaseQuery.replace(/\s+/g, "");
     const foundApp = appliedRecords.find(
-      (app) => app.referenceNo.toUpperCase().replace(/\s+/g, '') === normalized
+      (app) => app.referenceNo.toUpperCase().replace(/\s+/g, "") === normalized,
     );
 
     if (foundApp) {
       setActiveApplication(foundApp);
       setMatchedJob(null);
       setApiOffer(null);
-      setSearchStatus('found-app');
+      setSearchStatus("found-app");
       setIsSearching(false);
-      document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+      document
+        .getElementById("reference-portal-section")
+        ?.scrollIntoView({ behavior: "smooth" });
       return;
     }
 
     // 3. Fallback: Check in job openings
     const foundJob = JOB_POSITIONS.find(
       (job) =>
-        job.referenceNo.toUpperCase().replace(/\s+/g, '') === normalized ||
-        job.id.toUpperCase() === normalized
+        job.referenceNo.toUpperCase().replace(/\s+/g, "") === normalized ||
+        job.id.toUpperCase() === normalized,
     );
 
     if (foundJob) {
       setMatchedJob(foundJob);
       setActiveApplication(null);
       setApiOffer(null);
-      setSearchStatus('found-job');
+      setSearchStatus("found-job");
       setIsSearching(false);
-      document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+      document
+        .getElementById("reference-portal-section")
+        ?.scrollIntoView({ behavior: "smooth" });
       return;
     }
 
@@ -183,9 +211,11 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
     setActiveApplication(null);
     setMatchedJob(null);
     setApiOffer(null);
-    setSearchStatus('not-found');
+    setSearchStatus("not-found");
     setIsSearching(false);
-    document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .getElementById("reference-portal-section")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleOpenApplyModal = (job?: JobPosition) => {
@@ -194,14 +224,14 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
       setApplyRefInput(job.referenceNo);
     } else {
       setSelectedJobForApply(null);
-      setApplyRefInput('GENERAL-APP');
+      setApplyRefInput("GENERAL-APP");
     }
     setNewlyGeneratedRef(null);
-    setCandidateName('');
-    setCandidateEmail('');
-    setCandidatePhone('');
-    setCandidateNotes('');
-    setResumeFileName('');
+    setCandidateName("");
+    setCandidateEmail("");
+    setCandidatePhone("");
+    setCandidateNotes("");
+    setResumeFileName("");
     setIsApplyModalOpen(true);
   };
 
@@ -216,15 +246,23 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
     const newRecord: ApplicationStatusRecord = {
       referenceNo: generatedCode,
       candidateName: candidateName,
-      positionTitle: selectedJobForApply ? selectedJobForApply.title : 'General Commercial Talent Submission',
-      positionRef: applyRefInput || (selectedJobForApply ? selectedJobForApply.referenceNo : 'GH-GEN-2026'),
-      submissionDate: 'Just Now (Today)',
-      department: selectedJobForApply ? selectedJobForApply.department : 'Operations & Preconstruction',
-      status: 'Received',
+      positionTitle: selectedJobForApply
+        ? selectedJobForApply.title
+        : "General Commercial Talent Submission",
+      positionRef:
+        applyRefInput ||
+        (selectedJobForApply ? selectedJobForApply.referenceNo : "GH-GEN-2026"),
+      submissionDate: "Just Now (Today)",
+      department: selectedJobForApply
+        ? selectedJobForApply.department
+        : "Operations & Preconstruction",
+      status: "Received",
       statusStep: 1,
-      lastUpdated: 'Application registered in GH Construction candidate database',
-      notes: 'Initial documents received. Hiring team will review credentials within 3 business days.',
-      assignedManager: 'Terry Jomha (Operations Partner)'
+      lastUpdated:
+        "Application registered in GH Construction candidate database",
+      notes:
+        "Initial documents received. Hiring team will review credentials within 3 business days.",
+      assignedManager: "Terry Jomha (Operations Partner)",
     };
 
     setAppliedRecords((prev) => [newRecord, ...prev]);
@@ -238,12 +276,19 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
   };
 
   const filteredJobs = JOB_POSITIONS.filter((job) => {
-    const matchesDept = selectedDepartment === 'All' || job.department === selectedDepartment;
+    const matchesDept =
+      selectedDepartment === "All" || job.department === selectedDepartment;
     return matchesDept;
   });
 
   return (
-    <div id="careers-page" className="pt-28 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      id="careers-page"
+      className="pt-28 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Editorial Top Headline */}
         <div className="max-w-4xl border-b border-white/[0.08] pb-14 mb-16">
@@ -257,13 +302,17 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
           </h1>
 
           <p className="text-lg sm:text-2xl text-[#d6cebf] font-light mt-6 leading-relaxed max-w-3xl">
-            Commercial interiors, healthcare build-outs, and construction management crafted with pride. Track an active application by reference number, or apply to open positions across Scarborough.
+            Commercial interiors, healthcare build-outs, and construction
+            management crafted with pride. Track an active application by
+            reference number, or apply to open positions across Scarborough.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
               onClick={() => {
-                document.getElementById('reference-portal-section')?.scrollIntoView({ behavior: 'smooth' });
+                document
+                  .getElementById("reference-portal-section")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
               className="bg-[#c8aa7a] hover:bg-[#d6ba8c] text-[#08090c] font-display font-bold text-xs sm:text-sm tracking-wider uppercase px-6 py-3 transition-all duration-200 flex items-center gap-2 active:scale-[0.98] shadow-lg shadow-[#c8aa7a]/15"
             >
@@ -273,7 +322,9 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
 
             <button
               onClick={() => {
-                document.getElementById('openings-section')?.scrollIntoView({ behavior: 'smooth' });
+                document
+                  .getElementById("openings-section")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
               className="border border-white/20 hover:border-[#c8aa7a] text-[#f7f7f5] hover:text-[#c8aa7a] font-display font-semibold text-xs sm:text-sm tracking-wider uppercase px-6 py-3 transition-all duration-200 flex items-center gap-2"
             >
@@ -302,11 +353,12 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             </h2>
 
             <p className="text-sm sm:text-base text-[#d6cebf] font-light leading-relaxed mb-8 max-w-2xl">
-              Track real-time recruitment progress for your submitted application (e.g.,{' '}
+              Track real-time recruitment progress for your submitted
+              application (e.g.,{" "}
               <code className="text-[#c8aa7a] font-mono bg-white/[0.05] px-1.5 py-0.5 rounded">
                 GH-APP-2024-918
               </code>
-              ), or search for a specific vacancy reference (e.g.,{' '}
+              ), or search for a specific vacancy reference (e.g.,{" "}
               <code className="text-[#c8aa7a] font-mono bg-white/[0.05] px-1.5 py-0.5 rounded">
                 GH-PM-104
               </code>
@@ -323,7 +375,9 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             >
               <div className="relative flex-grow">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <span className="text-sm font-mono text-[#c8aa7a] font-bold">#</span>
+                  <span className="text-sm font-mono text-[#c8aa7a] font-bold">
+                    #
+                  </span>
                 </div>
                 <input
                   id={refInputId}
@@ -337,8 +391,8 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                   <button
                     type="button"
                     onClick={() => {
-                      setSearchQuery('');
-                      setSearchStatus('idle');
+                      setSearchQuery("");
+                      setSearchStatus("idle");
                       setActiveApplication(null);
                       setMatchedJob(null);
                       setApiOffer(null);
@@ -373,12 +427,17 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
 
             {/* Demo Pills for Instant 1-Click Testing */}
             <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-[#9b9fa8]">
-              <span className="font-mono text-[#d6cebf]">Quick demo tests:</span>
+              <span className="font-mono text-[#d6cebf]">
+                Quick demo tests:
+              </span>
               {[
-                { code: 'OFF-2026-VKUNA2', label: 'Yuvraj: Data Analyst (Official Offer API)' },
-                { code: 'GH-PM-104', label: 'Commercial PM' },
-                { code: 'GH-SITE-305', label: 'Site Super' },
-                { code: 'GH-APP-2024-918', label: 'Estimator' }
+                {
+                  code: "OFF-2026-VKUNA2",
+                  label: "Yuvraj: Data Analyst (Official Offer API)",
+                },
+                { code: "GH-PM-104", label: "Commercial PM" },
+                { code: "GH-SITE-305", label: "Site Super" },
+                { code: "GH-APP-2024-918", label: "Estimator" },
               ].map((pill) => (
                 <button
                   key={pill.code}
@@ -396,243 +455,291 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             </div>
 
             {/* RESULT VIEW: Live API Verified Offer Letter - 100% Original API Data */}
-            {searchStatus === 'found-api-offer' && apiOffer && (() => {
-              const emp = apiOffer.employee || {};
-              const job = apiOffer.employment || {};
-              const comp = apiOffer.company || {};
+            {searchStatus === "found-api-offer" &&
+              apiOffer &&
+              (() => {
+                const emp = apiOffer.employee || {};
+                const job = apiOffer.employment || {};
+                const comp = apiOffer.company || {};
 
-              const cName = emp.name || apiOffer.candidateName || apiOffer.name || 'Candidate';
-              const cEmail = emp.email || apiOffer.candidateEmail || apiOffer.email || '';
-              const cPhone = emp.phone || apiOffer.candidatePhone || apiOffer.phone || '';
-              const cNationality = emp.nationality || '';
-              const cPassport = emp.passportNumber || '';
+                const cName =
+                  emp.name ||
+                  apiOffer.candidateName ||
+                  apiOffer.name ||
+                  "Candidate";
+                const cEmail =
+                  emp.email || apiOffer.candidateEmail || apiOffer.email || "";
+                const cPhone =
+                  emp.phone || apiOffer.candidatePhone || apiOffer.phone || "";
+                const cNationality = emp.nationality || "";
+                const cPassport = emp.passportNumber || "";
 
-              const jPos = job.position || apiOffer.position || apiOffer.positionTitle || apiOffer.role || 'Position';
-              const jDept = job.department || apiOffer.department || 'Department';
-              const jLoc = job.location || apiOffer.location || 'On-Site';
-              const jType = job.employmentType || apiOffer.employmentType || apiOffer.type || 'Full-Time';
-              const jHours = job.standardHours || '40 hours/week';
-              const jProbation = job.probationPeriod || '3 Months';
-              const jNotice = job.noticePeriod || '30 Days';
+                const jPos =
+                  job.position ||
+                  apiOffer.position ||
+                  apiOffer.positionTitle ||
+                  apiOffer.role ||
+                  "Position";
+                const jDept =
+                  job.department || apiOffer.department || "Department";
+                const jLoc = job.location || apiOffer.location || "On-Site";
+                const jType =
+                  job.employmentType ||
+                  apiOffer.employmentType ||
+                  apiOffer.type ||
+                  "Full-Time";
+                const jHours = job.standardHours || "40 hours/week";
+                const jProbation = job.probationPeriod || "3 Months";
+                const jNotice = job.noticePeriod || "30 Days";
 
-              const salaryFormatted = job.salary != null
-                ? `${job.currency || 'USD'} ${Number(job.salary).toLocaleString()}`
-                : apiOffer.salary != null
-                  ? `${apiOffer.currency || 'USD'} ${Number(apiOffer.salary).toLocaleString()}`
-                  : 'Per Agreement';
+                const salaryFormatted =
+                  job.salary != null
+                    ? `${job.currency || "USD"} ${Number(job.salary).toLocaleString()}`
+                    : apiOffer.salary != null
+                      ? `${apiOffer.currency || "USD"} ${Number(apiOffer.salary).toLocaleString()}`
+                      : "Per Agreement";
 
-              const jDateFormatted = job.joiningDate
-                ? new Date(job.joiningDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })
-                : apiOffer.joiningDate || 'Per Offer Agreement';
+                const jDateFormatted = job.joiningDate
+                  ? new Date(job.joiningDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : apiOffer.joiningDate || "Per Offer Agreement";
 
-              const issuedDate = apiOffer.createdAt
-                ? new Date(apiOffer.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })
-                : 'September 17, 2026';
+                const issuedDate = apiOffer.createdAt
+                  ? new Date(apiOffer.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : "September 17, 2026";
 
-              const cCompany = comp.name || 'Gh Construction';
-              const oStatus = apiOffer.status || 'Accepted';
-              const oRef = apiOffer.reference || searchQuery;
-              const oContent = apiOffer.offerContent || '';
+                const cCompany = comp.name || "Gh Construction";
+                const oStatus = apiOffer.status || "Accepted";
+                const oRef = apiOffer.reference || searchQuery;
+                const oContent = apiOffer.offerContent || "";
 
-              return (
-                <div className="mt-8 pt-8 border-t border-white/[0.1] animate-fadeIn">
-                  <div className="bg-[#08090c] border border-emerald-500/60 p-6 sm:p-8 relative shadow-2xl">
-                    {/* Status header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2.5 mb-2">
-                          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 font-bold tracking-wider flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                            <span>OFFICIAL OFFER VERIFIED VIA LIVE API</span>
-                          </span>
-                          <span className="text-xs font-mono text-[#c8aa7a] bg-[#c8aa7a]/10 border border-[#c8aa7a]/30 px-2.5 py-0.5 font-bold">
-                            REF: {oRef}
-                          </span>
-                          <span className="text-xs font-mono text-[#9b9fa8]">
-                            Issued: {issuedDate}
-                          </span>
-                        </div>
-                        <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#f7f7f5]">
-                          {jPos}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[#d6cebf] font-mono mt-1 flex flex-wrap items-center gap-2">
-                          <span>
-                            Candidate: <strong className="text-[#f7f7f5] text-sm sm:text-base">{cName}</strong>
-                          </span>
-                          <span>•</span>
-                          <span>{jDept}</span>
-                          <span>•</span>
-                          <span className="text-[#c8aa7a] font-semibold">{cCompany}</span>
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-mono uppercase tracking-wider px-4 py-2 font-bold border bg-emerald-500/15 text-emerald-400 border-emerald-500/40 flex items-center gap-2 shadow-lg shadow-emerald-500/10">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                          <span>Status: {oStatus}</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Candidate Details Strip */}
-                    <div className="py-4 border-b border-white/[0.08] bg-white/[0.015] px-4 -mx-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-6 text-xs sm:text-sm">
-                      {cEmail && (
-                        <div className="flex items-center gap-2 text-[#d6cebf]">
-                          <Mail className="w-3.5 h-3.5 text-[#c8aa7a]" />
-                          <span className="font-mono">{cEmail}</span>
-                        </div>
-                      )}
-                      {cPhone && (
-                        <div className="flex items-center gap-2 text-[#d6cebf]">
-                          <Phone className="w-3.5 h-3.5 text-[#c8aa7a]" />
-                          <span className="font-mono">{cPhone}</span>
-                        </div>
-                      )}
-                      {cNationality && (
-                        <div className="flex items-center gap-2 text-[#d6cebf]">
-                          <User className="w-3.5 h-3.5 text-[#c8aa7a]" />
-                          <span>Nationality: <strong className="text-[#f7f7f5] uppercase font-mono">{cNationality}</strong></span>
-                        </div>
-                      )}
-                      {cPassport && (
-                        <div className="flex items-center gap-2 text-[#d6cebf]">
-                          <ShieldCheck className="w-3.5 h-3.5 text-[#c8aa7a]" />
-                          <span>Passport: <span className="font-mono text-[#f7f7f5]">{cPassport}</span></span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Employment Terms Grid */}
-                    <div className="py-6 border-b border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
-                        <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
-                          Base Compensation
-                        </div>
-                        <div className="text-xl font-display font-bold text-[#c8aa7a]">
-                          {salaryFormatted}
-                        </div>
-                        <div className="text-[11px] text-[#9b9fa8] mt-0.5">Per Annum (Bi-weekly)</div>
-                      </div>
-
-                      <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
-                        <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
-                          Scheduled Start Date
-                        </div>
-                        <div className="text-base sm:text-lg font-display font-bold text-[#f7f7f5]">
-                          {jDateFormatted}
-                        </div>
-                        <div className="text-[11px] text-[#9b9fa8] mt-0.5">Commencement Date</div>
-                      </div>
-
-                      <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
-                        <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
-                          Location & Hours
-                        </div>
-                        <div className="text-base font-display font-bold text-[#f7f7f5]">
-                          {jLoc} • {jType}
-                        </div>
-                        <div className="text-[11px] text-[#9b9fa8] mt-0.5">{jHours}</div>
-                      </div>
-
-                      <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
-                        <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
-                          Probation & Notice Terms
-                        </div>
-                        <div className="text-base font-display font-bold text-[#f7f7f5]">
-                          {jProbation} Probation
-                        </div>
-                        <div className="text-[11px] text-[#9b9fa8] mt-0.5">{jNotice} Notice Period</div>
-                      </div>
-                    </div>
-
-                    {/* Official Offer Letter Full Text */}
-                    {oContent && (
-                      <div className="py-6 border-b border-white/[0.08]">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-4 h-4 text-[#c8aa7a]" />
-                            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#f7f7f5] font-bold">
-                              Original Formal Offer Letter Document
+                return (
+                  <div className="mt-8 pt-8 border-t border-white/[0.1] animate-fadeIn">
+                    <div className="bg-[#08090c] border border-emerald-500/60 p-6 sm:p-8 relative shadow-2xl">
+                      {/* Status header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 font-bold tracking-wider flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                              <span>OFFICIAL OFFER VERIFIED VIA LIVE API</span>
+                            </span>
+                            <span className="text-xs font-mono text-[#c8aa7a] bg-[#c8aa7a]/10 border border-[#c8aa7a]/30 px-2.5 py-0.5 font-bold">
+                              REF: {oRef}
+                            </span>
+                            <span className="text-xs font-mono text-[#9b9fa8]">
+                              Issued: {issuedDate}
                             </span>
                           </div>
+                          <h3 className="text-2xl sm:text-4xl font-display font-bold text-[#f7f7f5]">
+                            {jPos}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-[#d6cebf] font-mono mt-1 flex flex-wrap items-center gap-2">
+                            <span>
+                              Candidate:{" "}
+                              <strong className="text-[#f7f7f5] text-sm sm:text-base">
+                                {cName}
+                              </strong>
+                            </span>
+                            <span>•</span>
+                            <span>{jDept}</span>
+                            <span>•</span>
+                            <span className="text-[#c8aa7a] font-semibold">
+                              {cCompany}
+                            </span>
+                          </p>
+                        </div>
 
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                navigator.clipboard.writeText(oContent);
-                                setHasCopiedLetter(true);
-                                setTimeout(() => setHasCopiedLetter(false), 2000);
-                              }}
-                              className="bg-white/[0.05] hover:bg-[#c8aa7a] text-[#f7f7f5] hover:text-[#08090c] text-xs font-mono px-3 py-1.5 transition-colors flex items-center gap-1.5 border border-white/10"
-                            >
-                              {hasCopiedLetter ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                              <span>{hasCopiedLetter ? 'Copied Letter' : 'Copy Text'}</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => window.print()}
-                              className="bg-white/[0.05] hover:bg-white/15 text-[#f7f7f5] text-xs font-mono px-3 py-1.5 transition-colors flex items-center gap-1.5 border border-white/10"
-                            >
-                              <Printer className="w-3.5 h-3.5" />
-                              <span>Print / Save</span>
-                            </button>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs sm:text-sm font-mono uppercase tracking-wider px-4 py-2 font-bold border bg-emerald-500/15 text-emerald-400 border-emerald-500/40 flex items-center gap-2 shadow-lg shadow-emerald-500/10">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                            <span>Status: {oStatus}</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Candidate Details Strip */}
+                      <div className="py-4 border-b border-white/[0.08] bg-white/[0.015] px-4 -mx-4 sm:-mx-6 sm:px-6 flex flex-wrap items-center gap-6 text-xs sm:text-sm">
+                        {cEmail && (
+                          <div className="flex items-center gap-2 text-[#d6cebf]">
+                            <Mail className="w-3.5 h-3.5 text-[#c8aa7a]" />
+                            <span className="font-mono">{cEmail}</span>
+                          </div>
+                        )}
+                        {cPhone && (
+                          <div className="flex items-center gap-2 text-[#d6cebf]">
+                            <Phone className="w-3.5 h-3.5 text-[#c8aa7a]" />
+                            <span className="font-mono">{cPhone}</span>
+                          </div>
+                        )}
+                        {cNationality && (
+                          <div className="flex items-center gap-2 text-[#d6cebf]">
+                            <User className="w-3.5 h-3.5 text-[#c8aa7a]" />
+                            <span>
+                              Nationality:{" "}
+                              <strong className="text-[#f7f7f5] uppercase font-mono">
+                                {cNationality}
+                              </strong>
+                            </span>
+                          </div>
+                        )}
+                        {cPassport && (
+                          <div className="flex items-center gap-2 text-[#d6cebf]">
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#c8aa7a]" />
+                            <span>
+                              Passport:{" "}
+                              <span className="font-mono text-[#f7f7f5]">
+                                {cPassport}
+                              </span>
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Employment Terms Grid */}
+                      <div className="py-6 border-b border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
+                            Base Compensation
+                          </div>
+                          <div className="text-xl font-display font-bold text-[#c8aa7a]">
+                            {salaryFormatted}
+                          </div>
+                          <div className="text-[11px] text-[#9b9fa8] mt-0.5">
+                            Per Annum (Bi-weekly)
                           </div>
                         </div>
 
-                        <div className="bg-[#050608] border border-white/[0.1] p-5 sm:p-8 max-h-[500px] overflow-y-auto font-mono text-xs sm:text-sm text-[#d6cebf] leading-relaxed whitespace-pre-wrap select-text">
-                          {oContent}
+                        <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
+                            Scheduled Start Date
+                          </div>
+                          <div className="text-base sm:text-lg font-display font-bold text-[#f7f7f5]">
+                            {jDateFormatted}
+                          </div>
+                          <div className="text-[11px] text-[#9b9fa8] mt-0.5">
+                            Commencement Date
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
+                            Location & Hours
+                          </div>
+                          <div className="text-base font-display font-bold text-[#f7f7f5]">
+                            {jLoc} • {jType}
+                          </div>
+                          <div className="text-[11px] text-[#9b9fa8] mt-0.5">
+                            {jHours}
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-[11px] font-mono uppercase text-[#a39d91] mb-1">
+                            Probation & Notice Terms
+                          </div>
+                          <div className="text-base font-display font-bold text-[#f7f7f5]">
+                            {jProbation} Probation
+                          </div>
+                          <div className="text-[11px] text-[#9b9fa8] mt-0.5">
+                            {jNotice} Notice Period
+                          </div>
                         </div>
                       </div>
-                    )}
 
-                    {/* Actions & Verification Source */}
-                    <div className="pt-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                      <div className="text-xs font-mono text-[#9b9fa8]">
-                        <span>Verified Live API: </span>
-                        <code className="text-[#c8aa7a] bg-white/[0.03] px-2 py-1 rounded break-all">
-                          offer-letter-app-one.vercel.app/api/v1/public/offers?companyId=6aabbd53da6dded29ac060c0&reference={oRef}
-                        </code>
-                      </div>
+                      {/* Official Offer Letter Full Text */}
+                      {oContent && (
+                        <div className="py-6 border-b border-white/[0.08]">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                            <div className="flex items-center gap-2">
+                              <FileText className="w-4 h-4 text-[#c8aa7a]" />
+                              <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#f7f7f5] font-bold">
+                                Original Formal Offer Letter Document
+                              </span>
+                            </div>
 
-                      <div className="flex flex-wrap items-center gap-3 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            navigator.clipboard.writeText(oContent || `Offer Reference: ${oRef}`);
-                            setHasCopiedLetter(true);
-                            setTimeout(() => setHasCopiedLetter(false), 2000);
-                          }}
-                          className="bg-[#c8aa7a] hover:bg-[#d6ba8c] text-[#08090c] font-display font-bold text-xs tracking-wider uppercase px-5 py-3 flex items-center gap-2 shadow-lg shadow-[#c8aa7a]/15"
-                        >
-                          <Copy className="w-4 h-4" />
-                          <span>COPY VERIFIED DETAILS</span>
-                        </button>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(oContent);
+                                  setHasCopiedLetter(true);
+                                  setTimeout(
+                                    () => setHasCopiedLetter(false),
+                                    2000,
+                                  );
+                                }}
+                                className="bg-white/[0.05] hover:bg-[#c8aa7a] text-[#f7f7f5] hover:text-[#08090c] text-xs font-mono px-3 py-1.5 transition-colors flex items-center gap-1.5 border border-white/10"
+                              >
+                                {hasCopiedLetter ? (
+                                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                ) : (
+                                  <Copy className="w-3.5 h-3.5" />
+                                )}
+                                <span>
+                                  {hasCopiedLetter
+                                    ? "Copied Letter"
+                                    : "Copy Text"}
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => window.print()}
+                                className="bg-white/[0.05] hover:bg-white/15 text-[#f7f7f5] text-xs font-mono px-3 py-1.5 transition-colors flex items-center gap-1.5 border border-white/10"
+                              >
+                                <Printer className="w-3.5 h-3.5" />
+                                <span>Print / Save</span>
+                              </button>
+                            </div>
+                          </div>
 
-                        <a
-                          href={`mailto:${COMPANY_INFO.email.general}?subject=Inquiry regarding Offer Ref ${oRef} for ${cName}`}
-                          className="border border-white/20 hover:border-white text-[#f7f7f5] font-display text-xs tracking-wider uppercase px-5 py-3 flex items-center gap-2"
-                        >
-                          <Mail className="w-4 h-4 text-[#c8aa7a]" />
-                          <span>CONTACT HR OPERATIONS</span>
-                        </a>
+                          <div className="bg-[#050608] border border-white/[0.1] p-5 sm:p-8 max-h-[500px] overflow-y-auto font-mono text-xs sm:text-sm text-[#d6cebf] leading-relaxed whitespace-pre-wrap select-text">
+                            {oContent}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Actions & Verification Source */}
+                      <div className="pt-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex flex-wrap items-center gap-3 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                oContent || `Offer Reference: ${oRef}`,
+                              );
+                              setHasCopiedLetter(true);
+                              setTimeout(() => setHasCopiedLetter(false), 2000);
+                            }}
+                            className="bg-[#c8aa7a] hover:bg-[#d6ba8c] text-[#08090c] font-display font-bold text-xs tracking-wider uppercase px-5 py-3 flex items-center gap-2 shadow-lg shadow-[#c8aa7a]/15"
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>COPY VERIFIED DETAILS</span>
+                          </button>
+
+                          <a
+                            href={`mailto:${COMPANY_INFO.email.general}?subject=Inquiry regarding Offer Ref ${oRef} for ${cName}`}
+                            className="border border-white/20 hover:border-white text-[#f7f7f5] font-display text-xs tracking-wider uppercase px-5 py-3 flex items-center gap-2"
+                          >
+                            <Mail className="w-4 h-4 text-[#c8aa7a]" />
+                            <span>CONTACT HR OPERATIONS</span>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
 
             {/* RESULT VIEW 1: Candidate Application Status Found */}
-            {searchStatus === 'found-app' && activeApplication && (
+            {searchStatus === "found-app" && activeApplication && (
               <div className="mt-8 pt-8 border-t border-white/[0.1] animate-fadeIn">
                 <div className="bg-[#08090c] border border-[#c8aa7a]/40 p-6 sm:p-8 relative">
                   {/* Status header */}
@@ -650,18 +757,20 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                         {activeApplication.positionTitle}
                       </h3>
                       <p className="text-xs sm:text-sm text-[#d6cebf] font-mono mt-0.5">
-                        Candidate: {activeApplication.candidateName} • {activeApplication.department}
+                        Candidate: {activeApplication.candidateName} •{" "}
+                        {activeApplication.department}
                       </p>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <span
-                        className={`text-xs font-mono uppercase tracking-wider px-3.5 py-1.5 font-bold border ${activeApplication.status === 'Offer Extended'
-                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                            : activeApplication.status === 'Interview Scheduled'
-                              ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                              : 'bg-[#c8aa7a]/15 text-[#c8aa7a] border-[#c8aa7a]/40'
-                          }`}
+                        className={`text-xs font-mono uppercase tracking-wider px-3.5 py-1.5 font-bold border ${
+                          activeApplication.status === "Offer Extended"
+                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                            : activeApplication.status === "Interview Scheduled"
+                              ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                              : "bg-[#c8aa7a]/15 text-[#c8aa7a] border-[#c8aa7a]/40"
+                        }`}
                       >
                         ● {activeApplication.status}
                       </span>
@@ -675,25 +784,46 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-2 relative">
                       {[
-                        { step: 1, label: 'Application Received', detail: 'Documents verified' },
-                        { step: 2, label: 'Technical Screening', detail: 'Portfolio review' },
-                        { step: 3, label: 'Panel Interview', detail: 'Partner & site review' },
-                        { step: 4, label: 'Offer & Onboarding', detail: 'Contract formalization' }
+                        {
+                          step: 1,
+                          label: "Application Received",
+                          detail: "Documents verified",
+                        },
+                        {
+                          step: 2,
+                          label: "Technical Screening",
+                          detail: "Portfolio review",
+                        },
+                        {
+                          step: 3,
+                          label: "Panel Interview",
+                          detail: "Partner & site review",
+                        },
+                        {
+                          step: 4,
+                          label: "Offer & Onboarding",
+                          detail: "Contract formalization",
+                        },
                       ].map((st) => {
-                        const isCompleted = activeApplication.statusStep >= st.step;
-                        const isCurrent = activeApplication.statusStep === st.step;
+                        const isCompleted =
+                          activeApplication.statusStep >= st.step;
+                        const isCurrent =
+                          activeApplication.statusStep === st.step;
                         return (
                           <div
                             key={st.step}
-                            className={`p-3.5 border transition-all ${isCurrent
-                                ? 'border-[#c8aa7a] bg-[#c8aa7a]/10'
+                            className={`p-3.5 border transition-all ${
+                              isCurrent
+                                ? "border-[#c8aa7a] bg-[#c8aa7a]/10"
                                 : isCompleted
-                                  ? 'border-white/20 bg-white/[0.02]'
-                                  : 'border-white/[0.05] bg-transparent opacity-40'
-                              }`}
+                                  ? "border-white/20 bg-white/[0.02]"
+                                  : "border-white/[0.05] bg-transparent opacity-40"
+                            }`}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <span className="text-[11px] font-mono text-[#c8aa7a]">STAGE 0{st.step}</span>
+                              <span className="text-[11px] font-mono text-[#c8aa7a]">
+                                STAGE 0{st.step}
+                              </span>
                               {isCompleted ? (
                                 <CheckCircle2 className="w-4 h-4 text-[#c8aa7a]" />
                               ) : (
@@ -736,7 +866,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                           <span>{activeApplication.assignedManager}</span>
                         </div>
                         <div className="text-xs text-[#a39d91] mt-1">
-                          Direct inquiry: <span className="font-mono text-[#d6cebf]">{COMPANY_INFO.email.general}</span>
+                          Direct inquiry:{" "}
+                          <span className="font-mono text-[#d6cebf]">
+                            {COMPANY_INFO.email.general}
+                          </span>
                         </div>
                       </div>
 
@@ -756,12 +889,14 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             )}
 
             {/* RESULT VIEW 2: Job Position Found By Reference */}
-            {searchStatus === 'found-job' && matchedJob && (
+            {searchStatus === "found-job" && matchedJob && (
               <div className="mt-8 pt-8 border-t border-white/[0.1] animate-fadeIn">
                 <div className="bg-[#08090c] border border-[#c8aa7a] p-6 sm:p-8">
                   <div className="flex items-center gap-2 text-xs font-mono text-[#c8aa7a] mb-2 uppercase tracking-wider">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Job Opening Reference Match: {matchedJob.referenceNo}</span>
+                    <span>
+                      Job Opening Reference Match: {matchedJob.referenceNo}
+                    </span>
                   </div>
 
                   <h3 className="text-2xl font-display font-bold text-[#f7f7f5] mb-2">
@@ -799,7 +934,9 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                     <button
                       onClick={() => {
                         setSelectedDepartment(matchedJob.department);
-                        document.getElementById('openings-section')?.scrollIntoView({ behavior: 'smooth' });
+                        document
+                          .getElementById("openings-section")
+                          ?.scrollIntoView({ behavior: "smooth" });
                       }}
                       className="border border-white/20 hover:border-white text-[#f7f7f5] font-display text-xs tracking-wider uppercase px-5 py-2.5"
                     >
@@ -811,7 +948,7 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             )}
 
             {/* RESULT VIEW 3: Unrecognized Code */}
-            {searchStatus === 'not-found' && (
+            {searchStatus === "not-found" && (
               <div className="mt-8 pt-6 border-t border-white/[0.1] animate-fadeIn">
                 <div className="bg-[#140d0d] border border-red-500/30 p-6 flex items-start gap-4">
                   <AlertCircle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
@@ -820,21 +957,27 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                       Reference Number Not Recognized
                     </h3>
                     <p className="text-sm text-[#d6cebf] font-light mt-1">
-                      No record found matching “{searchQuery}”.{' '}
+                      No record found matching “{searchQuery}”.{" "}
                       {apiErrorMessage && (
                         <span className="text-red-400 font-mono">
                           (Live Offer API: {apiErrorMessage})
                         </span>
-                      )}{' '}
-                      You can double-check your code, try vacancy codes like{' '}
-                      <code className="text-[#c8aa7a] font-mono">GH-PM-104</code>, or submit a general application.
+                      )}{" "}
+                      You can double-check your code, try vacancy codes like{" "}
+                      <code className="text-[#c8aa7a] font-mono">
+                        GH-PM-104
+                      </code>
+                      , or submit a general application.
                     </p>
                     <div className="mt-4 flex flex-wrap items-center gap-4">
                       <button
                         onClick={() => handleOpenApplyModal()}
                         className="text-xs font-mono uppercase tracking-wider text-[#c8aa7a] hover:text-[#f7f7f5] underline flex items-center gap-1"
                       >
-                        <span>Submit a general application to receive a reference number</span>
+                        <span>
+                          Submit a general application to receive a reference
+                          number
+                        </span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -873,7 +1016,7 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
           <div className="flex flex-wrap items-center gap-2 pb-8">
             {departments.map((dept) => {
               const count =
-                dept === 'All'
+                dept === "All"
                   ? JOB_POSITIONS.length
                   : JOB_POSITIONS.filter((j) => j.department === dept).length;
               const isActive = selectedDepartment === dept;
@@ -881,10 +1024,11 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                 <button
                   key={dept}
                   onClick={() => setSelectedDepartment(dept)}
-                  className={`px-3.5 py-2 text-xs font-mono uppercase tracking-wider transition-all flex items-center gap-2 ${isActive
-                      ? 'bg-[#c8aa7a] text-[#08090c] font-bold'
-                      : 'bg-white/[0.03] text-[#d6cebf] hover:text-[#f7f7f5] border border-white/[0.08] hover:border-white/20'
-                    }`}
+                  className={`px-3.5 py-2 text-xs font-mono uppercase tracking-wider transition-all flex items-center gap-2 ${
+                    isActive
+                      ? "bg-[#c8aa7a] text-[#08090c] font-bold"
+                      : "bg-white/[0.03] text-[#d6cebf] hover:text-[#f7f7f5] border border-white/[0.08] hover:border-white/20"
+                  }`}
                 >
                   <span>{dept}</span>
                   <span className="opacity-60 text-[11px]">({count})</span>
@@ -990,7 +1134,12 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
               Why Build Your Career With Us?
             </h2>
             <p className="text-base sm:text-lg text-[#d6cebf] font-light mt-4 leading-relaxed">
-              Operating under our guiding principle, <em className="text-[#f7f7f5]">“Big Enough to Serve | Small Enough to Care,”</em> GH Construction delivers an empowering workplace where craft is celebrated and leadership is hands-on.
+              Operating under our guiding principle,{" "}
+              <em className="text-[#f7f7f5]">
+                “Big Enough to Serve | Small Enough to Care,”
+              </em>{" "}
+              GH Construction delivers an empowering workplace where craft is
+              celebrated and leadership is hands-on.
             </p>
           </div>
 
@@ -998,24 +1147,24 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
             {[
               {
                 icon: Building,
-                title: 'High-Spec Projects',
-                desc: 'Lead intricate dental clinics, commercial headquarters, and retail spaces with top architectural partners across Scarborough.'
+                title: "High-Spec Projects",
+                desc: "Lead intricate dental clinics, commercial headquarters, and retail spaces with top architectural partners across Scarborough.",
               },
               {
                 icon: Award,
-                title: 'Direct Partner Access',
-                desc: 'Collaborate directly with Terry Jomha and Nadder Jomha. No bureaucratic red tape; solutions are decided fast.'
+                title: "Direct Partner Access",
+                desc: "Collaborate directly with Terry Jomha and Nadder Jomha. No bureaucratic red tape; solutions are decided fast.",
               },
               {
                 icon: ShieldCheck,
-                title: 'COR Safety Culture',
-                desc: 'Committed to zero harm. We prioritize safe job sites, top equipment, and comprehensive site supervisor support.'
+                title: "COR Safety Culture",
+                desc: "Committed to zero harm. We prioritize safe job sites, top equipment, and comprehensive site supervisor support.",
               },
               {
                 icon: Briefcase,
-                title: 'Growth & Apprenticeship',
-                desc: 'Tuition reimbursement for apprentices, Gold Seal certification support, and clear pathways from field to management.'
-              }
+                title: "Growth & Apprenticeship",
+                desc: "Tuition reimbursement for apprentices, Gold Seal certification support, and clear pathways from field to management.",
+              },
             ].map((feature, idx) => {
               const Icon = feature.icon;
               return (
@@ -1048,7 +1197,8 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
               Have Questions Regarding a Vacancy or Subtrade Partnership?
             </h3>
             <p className="text-xs sm:text-sm text-[#d6cebf] font-light mt-1">
-              Reach our human resources and project management team at our Edmonton headquarters.
+              Reach our human resources and project management team at our
+              Edmonton headquarters.
             </p>
           </div>
 
@@ -1089,18 +1239,27 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                   <div className="text-xs font-mono uppercase tracking-[0.2em] text-[#c8aa7a] mb-1">
                     Direct Candidate Submission
                   </div>
-                  <h3 id="career-apply-modal-title" className="text-2xl sm:text-3xl font-display font-bold text-[#f7f7f5]">
-                    {selectedJobForApply ? `Apply for ${selectedJobForApply.title}` : 'Submit General Application'}
+                  <h3
+                    id="career-apply-modal-title"
+                    className="text-2xl sm:text-3xl font-display font-bold text-[#f7f7f5]"
+                  >
+                    {selectedJobForApply
+                      ? `Apply for ${selectedJobForApply.title}`
+                      : "Submit General Application"}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#d6cebf] font-light mt-1">
-                    Your submission will generate a live tracking reference code for real-time recruitment updates.
+                    Your submission will generate a live tracking reference code
+                    for real-time recruitment updates.
                   </p>
                 </div>
 
                 <form onSubmit={handleApplySubmit} className="space-y-4">
                   {/* Reference code field */}
                   <div>
-                    <label htmlFor={modalRefInputId} className="block text-xs font-mono uppercase tracking-wider text-[#c8aa7a] mb-1.5">
+                    <label
+                      htmlFor={modalRefInputId}
+                      className="block text-xs font-mono uppercase tracking-wider text-[#c8aa7a] mb-1.5"
+                    >
                       Target Job Reference Code
                     </label>
                     <input
@@ -1116,7 +1275,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor={nameInputId} className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5">
+                      <label
+                        htmlFor={nameInputId}
+                        className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5"
+                      >
                         Full Name *
                       </label>
                       <input
@@ -1131,7 +1293,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                     </div>
 
                     <div>
-                      <label htmlFor={emailInputId} className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5">
+                      <label
+                        htmlFor={emailInputId}
+                        className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5"
+                      >
                         Email Address *
                       </label>
                       <input
@@ -1148,7 +1313,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor={phoneInputId} className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5">
+                      <label
+                        htmlFor={phoneInputId}
+                        className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5"
+                      >
                         Phone Number
                       </label>
                       <input
@@ -1162,7 +1330,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                     </div>
 
                     <div>
-                      <label htmlFor={expSelectId} className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5">
+                      <label
+                        htmlFor={expSelectId}
+                        className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5"
+                      >
                         Years of Commercial Experience
                       </label>
                       <select
@@ -1197,9 +1368,13 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                       <UploadCloud className="w-8 h-8 text-[#c8aa7a] mx-auto mb-2" />
                       <div className="text-xs text-[#d6cebf]">
                         {resumeFileName ? (
-                          <span className="text-[#c8aa7a] font-mono font-bold">{resumeFileName}</span>
+                          <span className="text-[#c8aa7a] font-mono font-bold">
+                            {resumeFileName}
+                          </span>
                         ) : (
-                          <span>Click to select PDF/DOCX or drop file here</span>
+                          <span>
+                            Click to select PDF/DOCX or drop file here
+                          </span>
                         )}
                       </div>
                       <div className="text-[11px] text-[#9b9fa8] mt-1 font-mono">
@@ -1210,7 +1385,10 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
 
                   {/* Candidate note */}
                   <div>
-                    <label htmlFor={notesInputId} className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5">
+                    <label
+                      htmlFor={notesInputId}
+                      className="block text-xs font-mono uppercase tracking-wider text-[#d6cebf] mb-1.5"
+                    >
                       Introductory Note or Project Highlights
                     </label>
                     <textarea
@@ -1257,13 +1435,16 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                 </h3>
 
                 <p className="text-sm text-[#d6cebf] font-light max-w-md mx-auto mb-6">
-                  Keep this tracking code to check your recruitment status anytime on our careers portal.
+                  Keep this tracking code to check your recruitment status
+                  anytime on our careers portal.
                 </p>
 
                 {/* Generated reference code display */}
                 <div className="bg-[#08090c] border-2 border-[#c8aa7a] p-4 sm:p-5 max-w-sm mx-auto mb-8 flex items-center justify-between gap-3">
                   <div className="text-left">
-                    <div className="text-[10px] font-mono uppercase text-[#a39d91]">Your Reference Number</div>
+                    <div className="text-[10px] font-mono uppercase text-[#a39d91]">
+                      Your Reference Number
+                    </div>
                     <div className="text-xl sm:text-2xl font-mono font-bold text-[#c8aa7a]">
                       {newlyGeneratedRef}
                     </div>
@@ -1275,7 +1456,11 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
                     className="p-2.5 bg-white/[0.05] hover:bg-[#c8aa7a] text-[#f7f7f5] hover:text-[#08090c] transition-colors rounded"
                     aria-label="Copy reference number to clipboard"
                   >
-                    {hasCopiedRef ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5" />}
+                    {hasCopiedRef ? (
+                      <Check className="w-5 h-5 text-emerald-400" />
+                    ) : (
+                      <Copy className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
 
@@ -1304,6 +1489,6 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Phone, Mail, MapPin, ArrowUpRight } from 'lucide-react';
 import { COMPANY_INFO, SERVICES } from '../data/ghData';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface FooterProps {
-  onNavigate: (view: string) => void;
   onOpenInquiry: () => void;
-  onSelectProject: (id: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenInquiry, onSelectProject }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -45,17 +46,41 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenInquiry, onSel
               Navigation
             </div>
             <ul className="space-y-3 text-sm tracking-wide">
-              {['Home', 'Work', 'Services', 'About', 'Careers', 'Industries', 'Testimonials', 'Contact'].map((item) => (
-                <li key={item}>
-                  <button
-                    onClick={() => {
-                      onNavigate(item.toLowerCase());
-                      scrollToTop();
+              {[
+                { label: 'Home', path: '/' },
+                { label: 'Work', path: '/work' },
+                { label: 'Services', path: '/services' },
+                { label: 'About', path: '/about' },
+                { label: 'Careers', path: '/careers' },
+                { label: 'Industries', path: '/industries' },
+                { label: 'Testimonials', path: '/testimonials' },
+                { label: 'Contact', path: '/contact' },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.path}
+                    onClick={(e) => {
+                      if (item.path.startsWith('/#')) {
+                        e.preventDefault();
+                        const hash = item.path.substring(1);
+                        if (location.pathname === '/') {
+                          setTimeout(() => {
+                            document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+                          }, 50);
+                        } else {
+                          navigate(item.path);
+                          setTimeout(() => {
+                            document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+                          }, 100);
+                        }
+                      } else {
+                        scrollToTop();
+                      }
                     }}
                     className="text-[#d6cebf] hover:text-[#c8aa7a] transition-colors focus:outline-none"
                   >
-                    {item}
-                  </button>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -69,15 +94,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenInquiry, onSel
             <ul className="space-y-3 text-sm">
               {SERVICES.map((s) => (
                 <li key={s.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate('services');
-                      scrollToTop();
-                    }}
-                    className="text-[#d6cebf] hover:text-[#c8aa7a] transition-colors text-left line-clamp-1"
+                  <Link
+                    to="/services"
+                    onClick={scrollToTop}
+                    className="text-[#d6cebf] hover:text-[#c8aa7a] transition-colors text-left line-clamp-1 block"
                   >
                     {s.title}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

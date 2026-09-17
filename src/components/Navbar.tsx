@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Phone, Mail } from 'lucide-react';
 import { COMPANY_INFO } from '../data/ghData';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
-  currentView: string;
-  onNavigate: (view: string) => void;
   onOpenInquiry?: () => void;
   onStartProject?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenInquiry, onStartProject }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry, onStartProject }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const handleOpenAction = onStartProject || onOpenInquiry || (() => {});
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,19 +36,35 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'work', label: 'Work' },
-    { id: 'services', label: 'Services' },
-    { id: 'about', label: 'About' },
-    { id: 'careers', label: 'Careers' },
-    { id: 'industries', label: 'Industries' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', path: '/', label: 'Home' },
+    { id: 'work', path: '/work', label: 'Work' },
+    { id: 'services', path: '/services', label: 'Services' },
+    { id: 'about', path: '/about', label: 'About' },
+    { id: 'careers', path: '/careers', label: 'Careers' },
+    { id: 'industries', path: '/industries', label: 'Industries' },
+    { id: 'testimonials', path: '/testimonials', label: 'Testimonials' },
+    { id: 'contact', path: '/contact', label: 'Contact' },
   ];
 
-  const handleNavClick = (viewId: string) => {
+  const handleNavClick = (path: string) => {
     setMobileMenuOpen(false);
-    onNavigate(viewId);
+    
+    // Custom scroll logic for hash links if already on the homepage
+    if (path.startsWith('/#')) {
+      const hash = path.substring(1);
+      if (location.pathname === '/') {
+        setTimeout(() => {
+          document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      } else {
+        navigate(path);
+        setTimeout(() => {
+          document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      navigate(path);
+    }
   };
 
   return (
@@ -62,9 +79,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
       >
         <div className="max-w-7xl mx-auto px-3.5 sm:px-5 lg:px-6 xl:px-8 flex items-center justify-between gap-2 sm:gap-3 lg:gap-4 xl:gap-6">
           {/* Authentic GH Construction Logo */}
-          <button
+          <Link
             id="nav-brand-logo"
-            onClick={() => handleNavClick('home')}
+            to="/"
             className="flex items-center group text-left focus:outline-none shrink-0"
             aria-label="GH Construction Ltd."
           >
@@ -73,17 +90,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
               alt="GH Construction Ltd."
               className="h-8 sm:h-10 lg:h-10 xl:h-11 2xl:h-12 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
             />
-          </button>
+          </Link>
 
           {/* Desktop Nav Links (Visible on lg and above) */}
           <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1.5 2xl:space-x-2 shrink min-w-0">
             {navLinks.map((link) => {
-              const isActive = currentView === link.id;
+              // Exact match for home, partial for others, or hash matching
+              const isActive = link.path === '/' 
+                ? location.pathname === '/' && !location.hash
+                : link.path.startsWith('/#') 
+                  ? location.hash === link.path.substring(1) 
+                  : location.pathname.startsWith(link.path);
+                  
               return (
                 <button
                   key={link.id}
                   id={`nav-link-${link.id}`}
-                  onClick={() => handleNavClick(link.id)}
+                  onClick={() => handleNavClick(link.path)}
                   className={`px-1.5 lg:px-2 xl:px-2.5 2xl:px-3.5 py-1.5 xl:py-2 text-[11px] lg:text-xs xl:text-xs 2xl:text-sm tracking-wider uppercase font-medium transition-colors relative whitespace-nowrap ${
                     isActive
                       ? 'text-[#c8aa7a]'
@@ -156,18 +179,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
           </div>
 
           <div className="py-4 flex flex-col space-y-1.5 shrink-0">
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const isActive = link.path === '/' 
+                ? location.pathname === '/' && !location.hash
+                : link.path.startsWith('/#') 
+                  ? location.hash === link.path.substring(1) 
+                  : location.pathname.startsWith(link.path);
+                  
+              return (
               <button
                 key={link.id}
-                onClick={() => handleNavClick(link.id)}
+                onClick={() => handleNavClick(link.path)}
                 className={`text-left text-base sm:text-lg font-display tracking-wide py-2 border-b border-white/[0.05] flex items-center justify-between ${
-                  currentView === link.id ? 'text-[#c8aa7a] font-semibold' : 'text-[#d6cebf]'
+                  isActive ? 'text-[#c8aa7a] font-semibold' : 'text-[#d6cebf]'
                 }`}
               >
                 <span>{link.label}</span>
                 <ArrowUpRight className="w-4 h-4 opacity-40" />
               </button>
-            ))}
+            )})}
           </div>
 
           <div className="pt-4 border-t border-white/[0.08] space-y-3 shrink-0 pb-6">

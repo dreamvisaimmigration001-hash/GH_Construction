@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Eye, ArrowUpRight, Filter } from 'lucide-react';
 import { Project, ProjectCategory } from '../types';
+import { PROJECTS } from '../data/ghData';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 interface ProjectPortfolioViewProps {
-  projects: Project[];
-  selectedCategory: string;
-  onSelectProject: (projectId: string) => void;
   onStartProject: () => void;
 }
 
 export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
-  projects,
-  selectedCategory,
-  onSelectProject,
   onStartProject,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>(selectedCategory || 'All');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeCategory, setActiveCategory] = useState<string>(location.state?.filter || 'All');
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories: string[] = [
@@ -26,7 +25,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
     'Retail'
   ];
 
-  const filteredProjects = projects.filter((proj) => {
+  const filteredProjects = PROJECTS.filter((proj) => {
     const matchesCategory =
       activeCategory === 'All' ||
       proj.category === activeCategory ||
@@ -42,7 +41,13 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
   });
 
   return (
-    <div id="portfolio-page" className="pt-28 pb-28 bg-[#08090c] min-h-screen">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      id="portfolio-page" 
+      className="pt-28 pb-28 bg-[#08090c] min-h-screen"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Header */}
         <div className="border-b border-white/[0.08] pb-12 mb-12">
@@ -74,7 +79,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
                 }`}
               >
                 {cat}
-                {cat === 'All' && ` (${projects.length})`}
+                {cat === 'All' && ` (${PROJECTS.length})`}
               </button>
             ))}
           </div>
@@ -121,7 +126,7 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
               <div
                 key={proj.id}
                 id={`portfolio-card-${proj.id}`}
-                onClick={() => onSelectProject(proj.id)}
+                onClick={() => navigate(`/work/${proj.id}`)}
                 className="group cursor-pointer bg-[#0d0f15] border border-white/[0.08] hover:border-[#c8aa7a]/50 overflow-hidden flex flex-col justify-between transition-all duration-300 shadow-lg"
               >
                 <div>
@@ -207,6 +212,6 @@ export const ProjectPortfolioView: React.FC<ProjectPortfolioViewProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

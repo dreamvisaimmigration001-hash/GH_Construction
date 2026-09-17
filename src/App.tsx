@@ -1,195 +1,67 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
-import { IntroductionSection } from './components/IntroductionSection';
-import { FeaturedWorkGrid } from './components/FeaturedWorkGrid';
-import { ServicesSection } from './components/ServicesSection';
-import { IndustriesSection } from './components/IndustriesSection';
-import { WhyGhSection } from './components/WhyGhSection';
-import { PartnersSection } from './components/PartnersSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
-import { ProjectCtaSection } from './components/ProjectCtaSection';
-import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { HomeView } from './components/HomeView';
 import { ProjectPortfolioView } from './components/ProjectPortfolioView';
-import { ProjectDetailView } from './components/ProjectDetailView';
+import { ProjectDetailWrapper } from './components/ProjectDetailWrapper';
 import { AboutView } from './components/AboutView';
 import { ServicesView } from './components/ServicesView';
 import { CareersView } from './components/CareersView';
+import { IndustriesView } from './components/IndustriesView';
+import { TestimonialsView } from './components/TestimonialsView';
+import { ContactView } from './components/ContactView';
 import { StartProjectModal } from './components/StartProjectModal';
-import { PROJECTS } from './data/ghData';
 
-export default function App() {
-  const [currentView, setCurrentView] = useState<string>('home');
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  const [portfolioCategoryFilter, setPortfolioCategoryFilter] = useState<string>('All');
-  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+// Scroll to top component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
-  // Scroll to top on view switch
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentView, selectedProjectId]);
+  }, [pathname]);
 
-  const handleNavigate = (view: string) => {
-    setSelectedProjectId(null);
-    if (view === 'contact') {
-      if (currentView !== 'home') {
-        setCurrentView('home');
-        setTimeout(() => {
-          document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' });
-      }
-      return;
-    }
+  return null;
+};
 
-    if (view === 'testimonials') {
-      if (currentView !== 'home') {
-        setCurrentView('home');
-        setTimeout(() => {
-          document.getElementById('testimonials-section')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        document.getElementById('testimonials-section')?.scrollIntoView({ behavior: 'smooth' });
-      }
-      return;
-    }
-
-    if (view === 'industries') {
-      if (currentView !== 'home') {
-        setCurrentView('home');
-        setTimeout(() => {
-          document.getElementById('industries-section')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        document.getElementById('industries-section')?.scrollIntoView({ behavior: 'smooth' });
-      }
-      return;
-    }
-
-    setCurrentView(view);
-  };
-
-  const handleSelectProject = (projectId: string) => {
-    setSelectedProjectId(projectId);
-    setCurrentView('project-detail');
-  };
-
-  const handleIndustryFilter = (categoryName: string) => {
-    setPortfolioCategoryFilter(categoryName);
-    setCurrentView('work');
-  };
-
-  const selectedProject = selectedProjectId
-    ? PROJECTS.find((p) => p.id === selectedProjectId) || PROJECTS[0]
-    : null;
+export default function App() {
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#08090c] text-[#e5e7eb] flex flex-col selection:bg-[#c8aa7a] selection:text-[#08090c]">
-      {/* Universal Premium Navigation */}
-      <Navbar
-        currentView={currentView}
-        onNavigate={handleNavigate}
-        onStartProject={() => setIsProjectModalOpen(true)}
-      />
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen bg-[#08090c] text-[#e5e7eb] flex flex-col selection:bg-[#c8aa7a] selection:text-[#08090c]">
+        {/* Universal Premium Navigation */}
+        <Navbar
+          onStartProject={() => setIsProjectModalOpen(true)}
+        />
 
-      {/* Main Content Areas */}
-      <main className="flex-grow">
-        {currentView === 'home' && (
-          <>
-            <HeroSection
-              onViewWork={() => handleNavigate('work')}
-              onExploreWork={() => handleNavigate('work')}
-              onStartProject={() => setIsProjectModalOpen(true)}
-              onSelectProject={handleSelectProject}
-            />
+        {/* Main Content Areas */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomeView onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/about" element={<AboutView onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/work" element={<ProjectPortfolioView onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/work/:id" element={<ProjectDetailWrapper onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/services" element={<ServicesView onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/careers" element={<CareersView onStartProject={() => setIsProjectModalOpen(true)} />} />
+            <Route path="/industries" element={<IndustriesView />} />
+            <Route path="/testimonials" element={<TestimonialsView />} />
+            <Route path="/contact" element={<ContactView />} />
+          </Routes>
+        </main>
 
-            <IntroductionSection
-              onLearnMore={() => handleNavigate('about')}
-              onStartProject={() => setIsProjectModalOpen(true)}
-            />
+        {/* Universal Architectural Footer */}
+        <Footer
+          onOpenInquiry={() => setIsProjectModalOpen(true)}
+        />
 
-            <FeaturedWorkGrid
-              projects={PROJECTS}
-              onSelectProject={handleSelectProject}
-              onViewAllProjects={() => handleNavigate('work')}
-            />
-
-            <ServicesSection
-              onStartProject={() => setIsProjectModalOpen(true)}
-            />
-
-            <IndustriesSection
-              onSelectIndustryFilter={handleIndustryFilter}
-            />
-
-            <WhyGhSection />
-
-            <PartnersSection />
-
-            <TestimonialsSection />
-
-            <ProjectCtaSection
-              onStartProject={() => setIsProjectModalOpen(true)}
-            />
-
-            <ContactSection />
-          </>
-        )}
-
-        {currentView === 'work' && (
-          <ProjectPortfolioView
-            projects={PROJECTS}
-            selectedCategory={portfolioCategoryFilter}
-            onSelectProject={handleSelectProject}
-            onStartProject={() => setIsProjectModalOpen(true)}
-          />
-        )}
-
-        {currentView === 'project-detail' && selectedProject && (
-          <ProjectDetailView
-            project={selectedProject}
-            allProjects={PROJECTS}
-            onBack={() => setCurrentView('work')}
-            onSelectProject={handleSelectProject}
-            onStartProject={() => setIsProjectModalOpen(true)}
-          />
-        )}
-
-        {currentView === 'about' && (
-          <AboutView
-            onStartProject={() => setIsProjectModalOpen(true)}
-            onViewWork={() => handleNavigate('work')}
-          />
-        )}
-
-        {currentView === 'services' && (
-          <ServicesView
-            onStartProject={() => setIsProjectModalOpen(true)}
-          />
-        )}
-
-        {currentView === 'careers' && (
-          <CareersView
-            onStartProject={() => setIsProjectModalOpen(true)}
-            onNavigateContact={() => handleNavigate('contact')}
-          />
-        )}
-      </main>
-
-      {/* Universal Architectural Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenInquiry={() => setIsProjectModalOpen(true)}
-        onSelectProject={handleSelectProject}
-      />
-
-      {/* Modal Dialog */}
-      <StartProjectModal
-        isOpen={isProjectModalOpen}
-        onClose={() => setIsProjectModalOpen(false)}
-      />
-    </div>
+        {/* Modal Dialog */}
+        <StartProjectModal
+          isOpen={isProjectModalOpen}
+          onClose={() => setIsProjectModalOpen(false)}
+        />
+      </div>
+    </Router>
   );
 }

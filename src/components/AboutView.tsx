@@ -10,22 +10,26 @@ import {
   Users,
 } from "lucide-react";
 import { COMPANY_INFO, PROJECTS } from "../data/ghData";
+import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 interface AboutViewProps {
   onStartProject: () => void;
-  onViewWork: () => void;
 }
 
 export const AboutView: React.FC<AboutViewProps> = ({
   onStartProject,
-  onViewWork,
 }) => {
+  const navigate = useNavigate();
   // Use authentic project image for an architectural banner
   const heroBuild =
     PROJECTS.find((p) => p.id === "juriscorp-law") || PROJECTS[0];
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       id="about-page"
       className="pt-28 pb-28 bg-[#08090c] min-h-screen text-[#e5e7eb]"
     >
@@ -291,7 +295,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
               START A PROJECT WITH GH
             </button>
             <button
-              onClick={onViewWork}
+              onClick={() => navigate('/work')}
               className="w-full sm:w-auto px-7 sm:px-10 py-4 sm:py-5 border border-white/[0.2] hover:border-[#c8aa7a] text-[#f7f7f5] hover:text-[#c8aa7a] font-display font-bold text-sm sm:text-base tracking-wider uppercase transition-colors text-center"
             >
               VIEW COMPLETED WORK
@@ -299,6 +303,6 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
