@@ -1060,13 +1060,6 @@ export const CareersView: React.FC<CareersViewProps> = ({ onStartProject, onNavi
               <Mail className="w-4 h-4" />
               <span>EMAIL RECRUITMENT</span>
             </a>
-            <a
-              href={COMPANY_INFO.phone.href}
-              className="border border-white/20 hover:border-white text-[#f7f7f5] font-mono text-xs sm:text-sm px-6 py-3 transition-colors flex items-center gap-2"
-            >
-              <Phone className="w-4 h-4 text-[#c8aa7a]" />
-              <span>{COMPANY_INFO.phone.display}</span>
-            </a>
           </div>
         </div>
       </div>

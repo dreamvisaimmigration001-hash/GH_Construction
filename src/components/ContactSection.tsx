@@ -74,17 +74,7 @@ export const ContactSection: React.FC = () => {
                 Headquarters & Main Office
               </div>
 
-              <div className="space-y-4 text-base">
-                <a
-                  id="contact-general-phone"
-                  href={COMPANY_INFO.phone.href}
-                  className="flex items-center gap-3 text-[#f7f7f5] hover:text-[#c8aa7a] transition-colors font-mono font-medium"
-                >
-                  <Phone className="w-4 h-4 text-[#c8aa7a]" />
-                  <span>{COMPANY_INFO.phone.display}</span>
-                </a>
-
-                <a
+              <div className="space-y-4 text-base">                <a
                   id="contact-general-email"
                   href={`mailto:${COMPANY_INFO.email.general}`}
                   className="flex items-center gap-3 text-[#d6cebf] hover:text-[#c8aa7a] transition-colors font-mono"

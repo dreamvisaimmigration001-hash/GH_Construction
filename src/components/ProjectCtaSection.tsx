@@ -50,14 +50,6 @@ export const ProjectCtaSection: React.FC<ProjectCtaSectionProps> = ({ onStartPro
               <ArrowUpRight className="w-5 h-5" />
             </button>
 
-            <a
-              id="cta-banner-call-direct"
-              href={COMPANY_INFO.phone.href}
-              className="px-7 py-4 sm:py-5 border border-white/[0.18] hover:border-[#c8aa7a] bg-[#08090c]/85 text-[#f7f7f5] hover:text-[#c8aa7a] text-xs sm:text-sm font-mono uppercase tracking-wider flex items-center justify-center gap-2.5 transition-colors backdrop-blur-md"
-            >
-              <Phone className="w-4 h-4 text-[#c8aa7a]" />
-              <span>DIRECT: {COMPANY_INFO.phone.display}</span>
-            </a>
           </div>
 
           <div className="pt-8 flex flex-wrap items-center gap-6 text-xs sm:text-sm text-[#d6cebf] font-mono">

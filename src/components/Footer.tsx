@@ -88,16 +88,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenInquiry, onSel
             <div className="text-sm font-mono uppercase tracking-[0.2em] text-[#f7f7f5] font-semibold">
               Office & Inquiries
             </div>
-            <div className="space-y-3 text-sm">
-              <a
-                href={COMPANY_INFO.phone.href}
-                className="flex items-center gap-2.5 text-[#f7f7f5] hover:text-[#c8aa7a] transition-colors font-mono"
-              >
-                <Phone className="w-4 h-4 text-[#c8aa7a]" />
-                <span>{COMPANY_INFO.phone.display}</span>
-              </a>
-
-              <a
+            <div className="space-y-3 text-sm">              <a
                 href={`mailto:${COMPANY_INFO.email.general}`}
                 className="flex items-center gap-2.5 text-[#d6cebf] hover:text-[#c8aa7a] transition-colors font-mono"
               >

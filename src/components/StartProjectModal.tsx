@@ -94,11 +94,7 @@ export const StartProjectModal: React.FC<StartProjectModalProps> = ({ isOpen, on
                 Start Your Project
               </h2>
               <p className="text-sm sm:text-base text-[#d6cebf] mt-2 font-light">
-                Connect with Edmonton’s commercial interior specialists. Call{' '}
-                <a href={COMPANY_INFO.phone.href} className="text-[#c8aa7a] hover:underline font-mono font-medium">
-                  {COMPANY_INFO.phone.display}
-                </a>{' '}
-                for immediate inquiries.
+                Connect with Edmonton’s commercial interior specialists for immediate inquiries.
               </p>
             </div>
 

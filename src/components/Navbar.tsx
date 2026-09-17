@@ -100,17 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
           </nav>
 
           {/* Desktop CTA & Quick Contact */}
-          <div className="hidden lg:flex items-center gap-2.5 xl:gap-4 2xl:gap-6 shrink-0">
-            <a
-              id="nav-quick-phone"
-              href={COMPANY_INFO.phone.href}
-              className="hidden 2xl:flex text-xs 2xl:text-sm text-[#d6cebf] hover:text-[#c8aa7a] transition-colors items-center gap-2 font-mono whitespace-nowrap"
-            >
-              <Phone className="w-4 h-4 text-[#c8aa7a]" />
-              {COMPANY_INFO.phone.display}
-            </a>
-
-            <button
+          <div className="hidden lg:flex items-center gap-2.5 xl:gap-4 2xl:gap-6 shrink-0">            <button
               id="nav-cta-start-project"
               onClick={handleOpenAction}
               className="bg-[#c8aa7a] hover:bg-[#d6ba8c] text-[#08090c] font-display font-bold text-xs 2xl:text-sm tracking-wider uppercase px-3.5 lg:px-4 xl:px-5 2xl:px-6 py-2 xl:py-2.5 transition-all duration-200 flex items-center gap-1.5 xl:gap-2 active:scale-[0.98] shadow-lg shadow-[#c8aa7a]/15 whitespace-nowrap shrink-0"
@@ -194,10 +184,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenI
             </button>
 
             <div className="flex flex-col space-y-2 text-xs sm:text-sm text-[#d6cebf] pt-1">
-              <a href={COMPANY_INFO.phone.href} className="flex items-center gap-2 hover:text-[#c8aa7a] font-mono">
-                <Phone className="w-4 h-4 text-[#c8aa7a]" />
-                <span>{COMPANY_INFO.phone.display}</span>
-              </a>
               <a href={`mailto:${COMPANY_INFO.email.general}`} className="flex items-center gap-2 hover:text-[#c8aa7a] font-mono">
                 <Mail className="w-4 h-4 text-[#c8aa7a]" />
                 <span>{COMPANY_INFO.email.general}</span>
