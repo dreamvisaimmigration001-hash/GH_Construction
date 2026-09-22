@@ -150,6 +150,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
                 <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
+                        <div className="pt-3">
+             <a
+    href="https://www.ghconstruction.ca/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center gap-2 text-sm font-display font-semibold uppercase tracking-wider text-[#c8aa7a] hover:text-[#f7f7f5] transition-colors"
+  >
+                <span>MEET OUR HOST COMPANY</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 
